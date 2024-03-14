@@ -1,0 +1,47 @@
+stages:
+  - build
+  - unit_test
+  - containerize_for_e2e_test
+  - test_e2e
+  - push
+  - containerize_for_staging
+  - test_staged
+  - containerize_for_deployment
+  - test_deployed
+
+variables:
+  PROJECT_NAME: chowtown
+  PRODUCTION_VERSION: "1.0.0"
+  DOCKER_IMAGE_NAME: "daniel413x/$PROJECT_NAME-client"
+
+cache:
+  - key:
+      files:
+          - package-lock.json
+    paths:
+      - node_modules/
+
+build app:
+  except:
+    - main
+    - staging
+  image: node:18-alpine
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+    - echo $APP_VERSION > version.html
+  artifacts:
+    paths:
+      - dist
+    expire_in: 1 hour
+
+unit test app:
+  except:
+    - main
+    - staging
+  image: node:18-alpine
+  stage: unit_test
+  script:
+    - npm run lint
+    - npm run test
