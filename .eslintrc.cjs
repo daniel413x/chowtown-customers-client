@@ -46,23 +46,8 @@ module.exports = {
     "react",
   ],
   rules: {
-  	"react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }],
-  	"react/react-in-jsx-scope": "off",
     indent: [
       1,
-    ],
-    "import/prefer-default-export": "off",
-    "linebreak-style": [
-      "error",
-      "unix",
-    ],
-    quotes: [
-      "error",
-      "double",
-    ],
-    semi: [
-      "error",
-      "always",
     ],
 		"import/extensions": [
 				"error",
@@ -76,5 +61,22 @@ module.exports = {
 				}
 			}
 		],
+    "import/prefer-default-export": "off",
+    "linebreak-style": [
+      "error",
+      "unix",
+    ],
+    quotes: [
+      "error",
+      "double",
+    ],
+  	"react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }],
+  	"react/jsx-props-no-spreading": "off",
+  	"react/react-in-jsx-scope": "off",
+    "react/require-default-props": "off",
+    semi: [
+      "error",
+      "always",
+    ],
   },
 };
