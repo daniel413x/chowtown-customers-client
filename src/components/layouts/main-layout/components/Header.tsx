@@ -1,8 +1,8 @@
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Link } from "react-router-dom";
+import MobileNav from "./MobileNav";
+import MainNav from "./MainNav";
 
 function Header() {
-  console.log();
   return (
     <div
       className="border-b-2 border-b-orange-500 py-6"
@@ -14,7 +14,12 @@ function Header() {
         >
           ChowTown
         </Link>
-        <HamburgerMenuIcon />
+        <div className="md:hidden" data-testid="mobile-menu">
+          <MobileNav />
+        </div>
+        <div className="hidden md:block" data-testid="non-mobile-menu">
+          <MainNav />
+        </div>
       </div>
     </div>
   );

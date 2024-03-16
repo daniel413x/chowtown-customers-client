@@ -1,23 +1,21 @@
 import { ReactNode } from "react";
-import {
-  useLocation,
-} from "react-router-dom";
-import Header from "../ui/Header";
+import Hero from "@/components/ui/front-page/Hero";
+import Header from "./components/Header";
 
-interface LayoutProps {
+interface MainLayoutProps {
   children: ReactNode;
 }
 
-function Layout({
+function MainLayout({
   children,
-}: LayoutProps) {
-  const { pathname } = useLocation();
+}: MainLayoutProps) {
   return (
     <div
       className="flex flex-col min-h-screen"
-      data-testid="layout"
+      data-testid="MainLayout"
     >
       <Header />
+      <Hero />
       <div className="container mx-auto flex-1 py-10">
         {children}
       </div>
@@ -25,4 +23,4 @@ function Layout({
   );
 }
 
-export default Layout;
+export default MainLayout;
