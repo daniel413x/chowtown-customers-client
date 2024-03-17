@@ -1,12 +1,13 @@
 import {
   Navigate, Route, Routes,
 } from "react-router-dom";
-import Layout from "./components/layouts/main-layout/MainLayout";
+import MainLayout from "./components/layouts/main-layout/MainLayout";
+import HomePage from "./pages/HomePage";
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Layout><span>/</span></Layout>} />
+      <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
       <Route path="/user-profile" element={<span>/user-profile</span>} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
