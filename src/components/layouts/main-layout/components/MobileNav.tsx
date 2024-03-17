@@ -18,7 +18,7 @@ function MobileNav() {
         </SheetTitle>
         <SheetDescription className="flex">
           <Button className="flex-1 font-bold bg-orange-500">
-            Log in
+            Login
           </Button>
         </SheetDescription>
       </SheetContent>

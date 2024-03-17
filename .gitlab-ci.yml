@@ -1,13 +1,6 @@
 stages:
   - build
   - unit_test
-  - containerize_for_e2e_test
-  - test_e2e
-  - push
-  - containerize_for_staging
-  - test_staged
-  - containerize_for_deployment
-  - test_deployed
 
 variables:
   PROJECT_NAME: chowtown
@@ -29,6 +22,7 @@ build app:
   stage: build
   script:
     - npm ci
+    - npm run lint
     - npm run build
     - echo $APP_VERSION > version.html
   artifacts:
@@ -43,5 +37,4 @@ unit test app:
   image: node:18-alpine
   stage: unit_test
   script:
-    - npm run lint
     - npm run test

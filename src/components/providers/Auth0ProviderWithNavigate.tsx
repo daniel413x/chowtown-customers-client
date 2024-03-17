@@ -14,7 +14,7 @@ function Auth0ProviderWithNavigate({
   if (!domain || !clientId || !redirectUri) {
     throw new Error("some Auth0 environment variables were missing");
   }
-  const onRedirectCallback = (appState?: AppState, user?: User) => {
+  const onRedirectCallback = (_appState?: AppState, user?: User) => {
     console.log("USER: ", user);
     return null;
   };

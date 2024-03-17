@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "@/assets/logo-standard.png";
 import MobileNav from "./MobileNav";
 import MainNav from "./MainNav";
 
@@ -12,7 +13,10 @@ function Header() {
           className="text-3xl font-bold tracking-light text-orange-500"
           to="/"
         >
-          ChowTown
+          <img
+            src={logo}
+            alt="Company logo"
+          />
         </Link>
         <div className="md:hidden" data-testid="mobile-menu">
           <MobileNav />

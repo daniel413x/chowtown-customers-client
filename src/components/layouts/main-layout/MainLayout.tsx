@@ -13,7 +13,7 @@ function MainLayout({
   return (
     <div
       className="flex flex-col min-h-screen"
-      data-testid="MainLayout"
+      data-testid="main-layout"
     >
       <Header />
       <Hero />

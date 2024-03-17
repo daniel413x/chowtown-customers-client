@@ -12,7 +12,13 @@ export default {
           before: [
             {
               path: "node_modules/ts-jest-mock-import-meta",
-              options: { metaObjectReplacement: { env: { VITE_APP_API_URL: "http://localhost:5000/api" } } },
+              options: {
+                metaObjectReplacement: {
+                  env: {
+                    VITE_APP_API_URL: "http://localhost:5000/api",
+                  }
+                }
+              },
             },
           ],
         },
@@ -20,8 +26,7 @@ export default {
     ],
   },
   moduleNameMapper: {
-    '^@/(.*)': '<rootDir>/src/$1',
-    "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/src/test/__ mocks __/fileMock.js",
-    "\\.(css|less|scss|sass)$": "<rootDir>/src/test/__mocks__/cssModuleMock.js",
+    "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/src/test/__mocks__/fileMock.js",
+    '^@/(.*)': '<rootDir>/src/$1'
   },
 };
