@@ -7,9 +7,30 @@ import HomePage from "./pages/HomePage";
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
-      <Route path="/user-profile" element={<span>/user-profile</span>} />
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route
+        path="/"
+        element={(
+          <MainLayout>
+            <HomePage />
+          </MainLayout>
+        )}
+      />
+      <Route
+        path="/user-profile"
+        element={(
+          <span>
+            /user-profile
+          </span>
+        )}
+      />
+      <Route
+        path="*"
+        element={(
+          <Navigate
+            to="/"
+          />
+        )}
+      />
     </Routes>
   );
 }
