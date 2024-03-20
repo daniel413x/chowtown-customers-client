@@ -1,6 +1,7 @@
-import { useCreateMyUser } from "@/lib/api/MyUserApi";
-import { AppState, Auth0Provider, User } from "@auth0/auth0-react";
+import { AUTH_CALLBACK_ROUTE } from "@/lib/consts";
+import { Auth0Provider } from "@auth0/auth0-react";
 import { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Auth0ProviderWithNavigateProps {
   children: ReactNode;
@@ -9,20 +10,16 @@ interface Auth0ProviderWithNavigateProps {
 function Auth0ProviderWithNavigate({
   children,
 }: Auth0ProviderWithNavigateProps) {
-  const {
-    createMyUser,
-  } = useCreateMyUser();
+  const navigate = useNavigate();
   const domain = import.meta.env.VITE_AUTH0_DOMAIN;
   const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_AUTH0_REDIRECT_URI;
   if (!domain || !clientId || !redirectUri) {
     throw new Error("some Auth0 environment variables were missing");
   }
-  // create user on return to app
-  const onRedirectCallback = (_appState?: AppState, user?: User) => {
-    if (user?.sub && user?.email) {
-      createMyUser({ auth0Id: user.sub, email: user.email });
-    }
+  // create user on return to app if none exists in mongo
+  const onRedirectCallback = () => {
+    navigate(`/${AUTH_CALLBACK_ROUTE}`);
   };
   return (
     <Auth0Provider

@@ -1,6 +1,7 @@
 export default {
   preset: "ts-jest/presets/default-esm",
   testEnvironment: "jest-environment-jsdom",
+  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   transform: {
     "^.+\\.tsx?$": [
       "ts-jest",
@@ -16,6 +17,9 @@ export default {
                 metaObjectReplacement: {
                   env: {
                     VITE_APP_API_URL: "http://localhost:5000/api",
+                    VITE_AUTH0_DOMAIN: "placeholder",
+                    VITE_AUTH0_CLIENT_ID: "placeholder",
+                    VITE_AUTH0_REDIRECT_URI: "placeholder",
                   }
                 }
               },
