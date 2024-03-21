@@ -14,7 +14,8 @@ function Auth0ProviderWithNavigate({
   const domain = import.meta.env.VITE_AUTH0_DOMAIN;
   const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_AUTH0_REDIRECT_URI;
-  if (!domain || !clientId || !redirectUri) {
+  const audience = import.meta.env.VITE_AUTH0_AUDIENCE;
+  if (!domain || !clientId || !redirectUri || !audience) {
     throw new Error("some Auth0 environment variables were missing");
   }
   // create user on return to app if none exists in mongo
@@ -27,6 +28,7 @@ function Auth0ProviderWithNavigate({
       clientId={clientId}
       authorizationParams={{
         redirect_uri: redirectUri,
+        audience,
       }}
       onRedirectCallback={onRedirectCallback}
     >
