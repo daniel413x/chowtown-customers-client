@@ -20,6 +20,7 @@ export default {
                     VITE_AUTH0_DOMAIN: "placeholder",
                     VITE_AUTH0_CLIENT_ID: "placeholder",
                     VITE_AUTH0_REDIRECT_URI: "placeholder",
+                    VITE_AUTH0_AUDIENCE: "placeholder",
                   }
                 }
               },
