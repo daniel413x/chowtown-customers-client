@@ -1,14 +1,16 @@
 import { ReactNode } from "react";
-import Hero from "@/components/ui/front-page/Hero";
+import Hero from "./components/Hero";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 interface MainLayoutProps {
   children: ReactNode;
+  hero?: boolean;
 }
 
 function MainLayout({
   children,
+  hero,
 }: MainLayoutProps) {
   return (
     <div
@@ -16,7 +18,7 @@ function MainLayout({
       data-testid="main-layout"
     >
       <Header />
-      <Hero />
+      {hero ? <Hero /> : null}
       <div className="container mx-auto flex-1 py-10">
         {children}
       </div>
