@@ -31,3 +31,48 @@ export const useCreateMyUser = () => {
     createMyUser, isLoading, isError, isSuccess,
   };
 };
+
+type UpdateUserReq = {
+  name: string;
+  addressLineOne: string;
+  city: string;
+  country: string;
+}
+
+export const useUpdateMyUser = () => {
+  const { getAccessTokenSilently, user } = useAuth0();
+  const updateMyUserReq = async (formData: UpdateUserReq) => {
+    if (!user?.sub) {
+      throw new Error("user object was not defined");
+    }
+    const accessToken = await getAccessTokenSilently();
+    const id = encodeURIComponent(user.sub);
+    const res = await fetch(`${API_BASE_URL}/user/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    if (!res.ok) {
+      throw new Error("failed to update user");
+    }
+  };
+  const {
+    mutateAsync: updateUser,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    reset,
+  } = useMutation(updateMyUserReq);
+  return {
+    updateUser,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    reset,
+  };
+};

@@ -26,7 +26,15 @@ const formSchema = z.object({
 
 type UserFormData = z.infer<typeof formSchema>;
 
-function UserProfileForm() {
+interface UserProfileFormProps {
+  onSave: (userProfileData: UserFormData) => void;
+  isLoading: boolean;
+}
+
+function UserProfileForm({
+  onSave,
+  isLoading,
+}: UserProfileFormProps) {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,21 +45,13 @@ function UserProfileForm() {
       country: "",
     },
   });
-  const { isSubmitting } = form.formState;
   const { handleSubmit } = form;
-  const onSubmit = async (vals: z.infer<typeof formSchema>) => {
-    try {
-      console.log(vals);
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
   return (
     <Form
       {...form}
     >
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSave)}
         className="space-y-4 bg-gray-50 rounded-lg md:p-10"
       >
         <div className="">
@@ -154,7 +154,7 @@ function UserProfileForm() {
             )}
           />
         </div>
-        {isSubmitting ? (
+        {isLoading ? (
           <LoadingButton />
         ) : (
           <Button
