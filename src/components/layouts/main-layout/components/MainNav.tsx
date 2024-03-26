@@ -14,6 +14,7 @@ function MainNav() {
             await loginWithRedirect();
           }}
           data-testid="login-button"
+          id="login-button"
         >
           Login
         </Button>
