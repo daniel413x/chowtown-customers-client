@@ -1,7 +1,40 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
+import { toast } from "sonner";
+import { errorCatch } from "../utils";
+import { USER_ROUTE } from "../consts";
+import { User } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
+
+export const useGetMyUser = () => {
+  const { getAccessTokenSilently, user } = useAuth0();
+  const getMyUserReq: () => Promise<User> = async () => {
+    if (!user?.sub) {
+      throw new Error("user object was not defined");
+    }
+    const accessToken = await getAccessTokenSilently();
+    const id = encodeURIComponent(user.sub);
+    const res = await fetch(`${API_BASE_URL}/${USER_ROUTE}/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error("failed to get user");
+    }
+    return res.json();
+  };
+  const { data: fetchedUser, isLoading, error } = useQuery("getMyUser", getMyUserReq);
+  if (error) {
+    toast.error(errorCatch(error));
+  }
+  return {
+    user: fetchedUser, isLoading,
+  };
+};
 
 type CreateUserReq = {
   auth0Id: string;
@@ -12,7 +45,7 @@ export const useCreateMyUser = () => {
   const { getAccessTokenSilently } = useAuth0();
   const createMyUserReq = async (user: CreateUserReq) => {
     const accessToken = await getAccessTokenSilently();
-    const res = await fetch(`${API_BASE_URL}/user`, {
+    const res = await fetch(`${API_BASE_URL}/${USER_ROUTE}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -47,7 +80,7 @@ export const useUpdateMyUser = () => {
     }
     const accessToken = await getAccessTokenSilently();
     const id = encodeURIComponent(user.sub);
-    const res = await fetch(`${API_BASE_URL}/user/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/${USER_ROUTE}/${id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -63,16 +96,17 @@ export const useUpdateMyUser = () => {
     mutateAsync: updateUser,
     isLoading,
     isSuccess,
-    isError,
     error,
-    reset,
   } = useMutation(updateMyUserReq);
+  if (isSuccess) {
+    toast.success("User profile updated!");
+  }
+  if (error) {
+    toast.error(errorCatch(error));
+  }
   return {
     updateUser,
     isLoading,
     isSuccess,
-    isError,
-    error,
-    reset,
   };
 };

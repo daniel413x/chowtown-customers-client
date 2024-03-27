@@ -4,7 +4,9 @@ import {
   FormControl, FormDescription, FormField, FormItem, FormLabel, Form, FormMessage,
 } from "@/components/ui/common/shadcn/form";
 import { Input } from "@/components/ui/common/shadcn/input";
+import { User } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -29,23 +31,29 @@ type UserFormData = z.infer<typeof formSchema>;
 interface UserProfileFormProps {
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
+  user: User;
 }
 
 function UserProfileForm({
   onSave,
   isLoading,
+  user,
 }: UserProfileFormProps) {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      addressLineOne: "",
-      email: "",
-      city: "",
-      country: "",
+      name: user.name,
+      addressLineOne: user.addressLineOne,
+      email: user.email,
+      city: user.city,
+      country: user.country,
     },
   });
   const { handleSubmit } = form;
+  //
+  useEffect(() => {
+    form.reset(user);
+  }, [user, form]);
   return (
     <Form
       {...form}

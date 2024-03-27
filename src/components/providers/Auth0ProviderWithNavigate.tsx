@@ -31,7 +31,6 @@ function Auth0ProviderWithNavigate({
         audience,
       }}
       onRedirectCallback={onRedirectCallback}
-      cacheLocation="localstorage"
     >
       {children}
     </Auth0Provider>
