@@ -3,10 +3,11 @@ import {
 } from "react-router-dom";
 import MainLayout from "./components/layouts/main-layout/MainLayout";
 import HomePage from "./pages/home-page/HomePage";
-import { AUTH_CALLBACK_ROUTE } from "./lib/consts";
+import { AUTH_CALLBACK_ROUTE, USER_PROFILE_ROUTE } from "./lib/consts";
 import AuthCallbackPage from "./pages/auth/AuthCallbackPage";
 import Auth0ProviderWithNavigate from "./components/providers/Auth0ProviderWithNavigate";
 import UserProfilePage from "./pages/user-profile/UserProfilePage";
+import ProtectedRoute from "./components/misc/ProtectedRoute";
 
 function App() {
   return (
@@ -27,14 +28,16 @@ function App() {
               <AuthCallbackPage />
             )}
           />
-          <Route
-            path="/user-profile"
-            element={(
-              <MainLayout>
-                <UserProfilePage />
-              </MainLayout>
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path={`/${USER_PROFILE_ROUTE}`}
+              element={(
+                <MainLayout>
+                  <UserProfilePage />
+                </MainLayout>
             )}
-          />
+            />
+          </Route>
           <Route
             path="*"
             element={(
