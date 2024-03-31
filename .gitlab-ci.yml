@@ -63,7 +63,7 @@ push to staging:
     - cat $GCP_CLOUD_BUILD_SERVICE_KEY > /tmp/gcloud-service-key.json
     - gcloud auth activate-service-account --key-file /tmp/gcloud-service-key.json
     - gcloud config set project $GCP_PROJECT_ID
-    - gcloud builds submit . --config=cloudbuild.yml --substitutions _PORT=$PORT,_GCP_PROJECT_ID=$GCP_PROJECT_ID,_SERVICE_NAME=$SERVICE_NAME,_IMAGE_V=$IMAGE_V,_VITE_APP_API_URL=$VITE_APP_API_URL,_VITE_AUTH0_CLIENT_ID=$VITE_AUTH0_CLIENT_ID,_VITE_AUTH0_REDIRECT_URI=$VITE_AUTH0_REDIRECT_URI,_VITE_AUTH0_AUDIENCE=$VITE_AUTH0_AUDIENCE,_VITE_AUTH0_DOMAIN=$VITE_AUTH0_DOMAIN,
+    - gcloud builds submit . --config=cloudbuild.yml --substitutions _PORT=$PORT,_GCP_PROJECT_ID=$GCP_PROJECT_ID,_SERVICE_NAME=$SERVICE_NAME,_IMAGE_V=$IMAGE_V,_VITE_APP_API_URL=$VITE_APP_API_URL,_VITE_AUTH0_CLIENT_ID=$VITE_AUTH0_CLIENT_ID,_VITE_AUTH0_REDIRECT_URI=$VITE_AUTH0_REDIRECT_URI,_VITE_AUTH0_AUDIENCE=$VITE_AUTH0_AUDIENCE,_VITE_AUTH0_DOMAIN=$VITE_AUTH0_DOMAIN
   after_script:
     - rm /tmp/gcloud-service-key.json
 
@@ -84,7 +84,10 @@ containerize for staging:
     - git clone https://oauth2:$WRITE_TOKEN@gitlab.com/$GITLAB_ACCOUNT_NAME/$PROJECT_GROUP-tests.git cypress
     - cd cypress
     - npm install
+    - cat $CYPRESS_ENV_JSON > cypress.env.json
     - npm run cypress:run
+  after_script:
+    - rm cypress.env.json
 
 test staging app:
   only:
