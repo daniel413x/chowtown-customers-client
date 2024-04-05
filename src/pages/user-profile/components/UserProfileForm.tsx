@@ -62,11 +62,11 @@ function UserProfileForm({
         onSubmit={handleSubmit(onSave)}
         className="space-y-4 bg-gray-50 rounded-lg md:p-10"
       >
-        <div className="">
+        <div>
           <h2 className="text-2xl font-bold">
             User Profile Form
           </h2>
-          <FormDescription className="">
+          <FormDescription>
             View and change your profile information here
           </FormDescription>
         </div>
