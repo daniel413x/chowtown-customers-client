@@ -3,11 +3,12 @@ import {
 } from "react-router-dom";
 import MainLayout from "./components/layouts/main-layout/MainLayout";
 import HomePage from "./pages/home-page/HomePage";
-import { AUTH_CALLBACK_ROUTE, USER_PROFILE_ROUTE } from "./lib/consts";
+import { AUTH_CALLBACK_ROUTE, SEARCH_ROUTE, USER_PROFILE_ROUTE } from "./lib/consts";
 import AuthCallbackPage from "./pages/auth/AuthCallbackPage";
 import Auth0ProviderWithNavigate from "./components/providers/Auth0ProviderWithNavigate";
 import UserProfilePage from "./pages/user-profile/UserProfilePage";
 import ProtectedRoute from "./components/misc/ProtectedRoute";
+import SearchPage from "./pages/search/SearchPage";
 
 function App() {
   return (
@@ -38,6 +39,14 @@ function App() {
             )}
             />
           </Route>
+          <Route
+            path={`/${SEARCH_ROUTE}/:city`}
+            element={(
+              <MainLayout>
+                <SearchPage />
+              </MainLayout>
+            )}
+          />
           <Route
             path="*"
             element={(

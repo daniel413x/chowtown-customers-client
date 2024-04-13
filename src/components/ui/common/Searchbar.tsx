@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { SEARCH_ROUTE } from "@/lib/consts";
 import {
   Form, FormControl, FormField, FormItem,
 } from "./shadcn/form";
@@ -19,7 +21,7 @@ export type SearchForm = z.infer<typeof formSchema>;
 
 interface SearchbarProps {
   placeholder: string;
-  onSubmit: (formData: SearchForm) => void;
+  onSubmit?: (formData: SearchForm) => void;
   onReset?: () => void;
 }
 
@@ -28,12 +30,18 @@ function Searchbar({
   onSubmit,
   onReset,
 }: SearchbarProps) {
+  const navigate = useNavigate();
   const form = useForm<SearchForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       searchQuery: "",
     },
   });
+  const handleSearchSubmitDefault = (searchFormValues: SearchForm) => {
+    navigate({
+      pathname: `${SEARCH_ROUTE}/${searchFormValues.searchQuery}`,
+    });
+  };
   const handleReset = () => {
     form.reset({
       searchQuery: "",
@@ -45,7 +53,7 @@ function Searchbar({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit || handleSearchSubmitDefault)}
         className={cn("flex items-center flex-1 gap-3 justify-between flex-row border-2 rounded-full p-3 mx-5", {
           "border-red-500": form.formState.errors.searchQuery,
         })}

@@ -1,19 +1,11 @@
 import landingImage from "@/assets/landing.png";
 import appDownloadImage from "@/assets/appDownload.png";
-import Searchbar, { SearchForm } from "@/components/ui/common/Searchbar";
-import { SEARCH_ROUTE } from "@/lib/consts";
-import { useNavigate } from "react-router-dom";
+import Searchbar from "@/components/ui/common/Searchbar";
 
 function HomePage() {
-  const navigate = useNavigate();
-  const handleSearchSubmit = (searchFormValues: SearchForm) => {
-    navigate({
-      pathname: `${SEARCH_ROUTE}/${searchFormValues.searchQuery}`,
-    });
-  };
   return (
     <div className="flex flex-col gap-12">
-      <div className="bg-white rounded-lg shadow-md py-8 flex flex-col gap-5 text-center -mt-16">
+      <div className="md:px-32 bg-white rounded-lg shadow-md py-8 flex flex-col gap-5 text-center -mt-16">
         <h1 className="text-5xl font-bold tracking-tight text-orange-600">
           Tuck into takeaway today...
         </h1>
@@ -22,7 +14,6 @@ function HomePage() {
         </span>
         <Searchbar
           placeholder="Search"
-          onSubmit={handleSearchSubmit}
         />
       </div>
       <div className="grid md:grid-cols-2 gap-5">
