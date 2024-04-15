@@ -9,7 +9,7 @@ function SearchInfo({
   count,
   city,
 }: SearchInfoProps) {
-  if (!city || !count) {
+  if (!city) {
     return null;
   }
   const titlecaseCity = city.replace(/(^\D|\s\D)(?=\D*)/g, (c) => c.toUpperCase());

@@ -12,7 +12,7 @@ import { Input } from "./shadcn/input";
 import { Button } from "./shadcn/button";
 
 const formSchema = z.object({
-  searchQuery: z.string().min(1, {
+  searchTerm: z.string().min(1, {
     message: "Restaurant name is required",
   }),
 });
@@ -21,12 +21,14 @@ export type SearchForm = z.infer<typeof formSchema>;
 
 interface SearchbarProps {
   placeholder: string;
+  searchTerm?: string;
   onSubmit?: (formData: SearchForm) => void;
   onReset?: () => void;
 }
 
 function Searchbar({
   placeholder,
+  searchTerm,
   onSubmit,
   onReset,
 }: SearchbarProps) {
@@ -34,17 +36,17 @@ function Searchbar({
   const form = useForm<SearchForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      searchQuery: "",
+      searchTerm: searchTerm || "",
     },
   });
   const handleSearchSubmitDefault = (searchFormValues: SearchForm) => {
     navigate({
-      pathname: `${SEARCH_ROUTE}/${searchFormValues.searchQuery}`,
+      pathname: `${SEARCH_ROUTE}/${searchFormValues.searchTerm}`,
     });
   };
   const handleReset = () => {
     form.reset({
-      searchQuery: "",
+      searchTerm: "",
     });
     if (onReset) {
       onReset();
@@ -55,7 +57,7 @@ function Searchbar({
       <form
         onSubmit={form.handleSubmit(onSubmit || handleSearchSubmitDefault)}
         className={cn("flex items-center flex-1 gap-3 justify-between flex-row border-2 rounded-full p-3 mx-5", {
-          "border-red-500": form.formState.errors.searchQuery,
+          "border-red-500": form.formState.errors.searchTerm,
         })}
       >
         <Search
@@ -65,7 +67,7 @@ function Searchbar({
         />
         <FormField
           control={form.control}
-          name="searchQuery"
+          name="searchTerm"
           render={(({ field }) => (
             <FormItem className="flex-1">
               <FormControl>

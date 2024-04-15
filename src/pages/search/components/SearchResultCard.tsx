@@ -1,8 +1,9 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
 import { DETAIL_ROUTE } from "@/lib/consts";
 import { Restaurant } from "@/lib/types";
 import { Banknote, Clock, Dot } from "lucide-react";
 import { Link } from "react-router-dom";
+import { AspectRatio } from "@/components/ui/common/shadcn/aspect-ratio";
 
 interface SearchResultCardProps {
   restaurant: Restaurant;
@@ -58,6 +59,33 @@ function SearchResultCard({
         </div>
       </div>
     </Link>
+  );
+}
+
+export function SearchResultCardSkeleton() {
+  return (
+    <div
+      className="grid lg:grid-cols-[2fr_3fr] gap-5 group"
+    >
+      <AspectRatio ratio={16 / 6}>
+        <Skeleton className="h-full" />
+      </AspectRatio>
+      <div>
+        <Skeleton className="h-10 w-[300px] mb-2" />
+        <div
+          className="grid md:grid-cols-2 gap-2"
+        >
+          <div className="flex gap-2">
+            <Skeleton className="h-10 w-20" />
+            <Skeleton className="h-10 w-20" />
+          </div>
+          <div className="flex gap-2 flex-col">
+            <Skeleton className="h-10 w-24" />
+            <Skeleton className="h-10 w-[150px]" />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

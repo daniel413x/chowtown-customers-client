@@ -1,5 +1,5 @@
 export interface User {
-  _id: string;
+  id: string;
   email: string;
   name: string;
   addressLineOne: string;
@@ -24,7 +24,7 @@ export interface MenuItem {
 }
 
 export interface Restaurant {
-  _id: string;
+  id: string;
   userId: string;
   restaurantName: string;
   slug: string;
