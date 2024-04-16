@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
 import { Link } from "react-router-dom";
 
 interface SearchInfoProps {
@@ -25,6 +26,17 @@ function SearchInfo({
           Change location
         </Link>
       </span>
+    </div>
+  );
+}
+
+export function SearchInfoSkeleton() {
+  return (
+    <div
+      className="flex items-center gap-2 my-4 h-[28px]"
+    >
+      <Skeleton className="h-10 w-[300px] mr-2" />
+      <Skeleton className="h-6 w-[100px] self-end" />
     </div>
   );
 }

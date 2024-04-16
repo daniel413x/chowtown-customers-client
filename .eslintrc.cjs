@@ -78,6 +78,7 @@ module.exports = {
     "react/require-default-props": "off",
     "no-underscore-dangle": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "react/no-array-index-key": "off",
     semi: [
       "error",
       "always",

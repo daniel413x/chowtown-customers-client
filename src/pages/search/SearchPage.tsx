@@ -2,7 +2,7 @@ import Searchbar, { SearchForm } from "@/components/ui/common/Searchbar";
 import { useSearchRestaurants } from "@/lib/api/RestaurantApi";
 import { useParams, useSearchParams } from "react-router-dom";
 import PageControl, { PageControlSkeleton } from "@/components/ui/common/PageControl";
-import SearchInfo from "./components/SearchInfo";
+import SearchInfo, { SearchInfoSkeleton } from "./components/SearchInfo";
 import SearchResultCard, { SearchResultCardSkeleton } from "./components/SearchResultCard";
 import CuisinesFilter from "./components/CuisinesFilter";
 
@@ -36,6 +36,7 @@ function SearchPage() {
     });
     handleSetSearchParams({ page: String(num) });
   };
+  const initialState = isLoading && !data;
   return (
     <main className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
       <CuisinesFilter
@@ -47,20 +48,27 @@ function SearchPage() {
           onSubmit={handleSetSearch}
           searchTerm={searchTerm || undefined}
         />
-        <SearchInfo
-          city={city}
-          count={data?.pagination?.count}
-        />
+        {initialState ? (
+          <SearchInfoSkeleton />
+        ) : null}
+        {!data?.pagination || !city ? null : (
+          <SearchInfo
+            city={city}
+            count={data?.pagination?.count}
+          />
+        )}
         <div className="flex flex-col justify-between flex-1 gap-14">
           <ul className="flex flex-col gap-4">
+            {isLoading ? Array(3).fill("").map((_, i) => (
+              <SearchResultCardSkeleton key={i} />
+            )) : null}
             {data?.rows.map((restaurant) => (
               <li key={restaurant.id}>
-                {isLoading ? <SearchResultCardSkeleton /> : null}
                 {!data ? null : <SearchResultCard restaurant={restaurant} />}
               </li>
             ))}
           </ul>
-          {!data ? <PageControlSkeleton /> : (
+          {!data ? null : (
             <PageControl
               page={data?.pagination.page}
               pages={data?.pagination.pages}
@@ -68,6 +76,7 @@ function SearchPage() {
               handleSetPage={handleSetPage}
             />
           )}
+          {initialState ? <PageControlSkeleton /> : null}
         </div>
       </div>
     </main>

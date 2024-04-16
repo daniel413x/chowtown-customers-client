@@ -20,7 +20,11 @@ export const useSearchRestaurants = (city: string, searchParams: URLSearchParams
     const res = await fetch(url, {
       method: "GET",
     });
-    return res.json();
+    const fakeDelay = new Promise((resolve) => {
+      setTimeout(resolve, 150);
+    });
+    const results = await Promise.all([res, fakeDelay]);
+    return results[0].json();
   };
   const { data: fetchedData, isLoading, error } = useQuery(
     [url],

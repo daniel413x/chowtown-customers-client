@@ -13,7 +13,7 @@ function HomePage() {
           ...with food just a click away!
         </span>
         <Searchbar
-          placeholder="Search"
+          placeholder="Enter your city"
         />
       </div>
       <div className="grid md:grid-cols-2 gap-5">
