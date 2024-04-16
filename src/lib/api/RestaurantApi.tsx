@@ -13,6 +13,7 @@ export const useSearchRestaurants = (city: string, searchParams: URLSearchParams
     query: {
       page: searchParams.get("page") || 1,
       searchTerm: searchParams.get("searchTerm"),
+      cuisines: searchParams.get("cuisines"),
     },
   }, { skipNull: true });
   const getMyUserReq: () => Promise<RestaurantGETManyRes> = async () => {

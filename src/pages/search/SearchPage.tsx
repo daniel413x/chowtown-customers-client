@@ -4,32 +4,43 @@ import { useParams, useSearchParams } from "react-router-dom";
 import PageControl, { PageControlSkeleton } from "@/components/ui/common/PageControl";
 import SearchInfo from "./components/SearchInfo";
 import SearchResultCard, { SearchResultCardSkeleton } from "./components/SearchResultCard";
+import CuisinesFilter from "./components/CuisinesFilter";
+
+export type SearchQuery = { [param: string]: string | undefined; };
 
 function SearchPage() {
   const city = useParams().city || "Washington, D.C.";
   const [searchParams, setSearchParams] = useSearchParams();
   const { data, isLoading } = useSearchRestaurants(city, searchParams);
   const searchTerm = searchParams.get("searchTerm");
+  // retain previously set search params and delete those where empty string
+  function handleSetSearchParams(query: SearchQuery) {
+    const url = new URLSearchParams(window.location.search);
+    const k = Object.keys(query);
+    for (let i = 0; i < k.length; i += 1) {
+      const prop = k[i];
+      if (query[prop] === "") {
+        url.delete(prop);
+      } else {
+        url.set(prop, query[prop]!);
+      }
+    }
+    setSearchParams(url);
+  }
   const handleSetSearch = (formData: SearchForm) => {
-    setSearchParams({ searchTerm: formData.searchTerm });
+    handleSetSearchParams({ searchTerm: formData.searchTerm, page: "" });
   };
   const handleSetPage = (num: number) => {
     window.scrollTo({
       top: 0,
     });
-    const query: any = {
-      page: String(num),
-    };
-    if (searchTerm) {
-      query.searchTerm = searchTerm;
-    }
-    setSearchParams(query);
+    handleSetSearchParams({ page: String(num) });
   };
   return (
     <main className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
-      <div>
-        TODO: filters
-      </div>
+      <CuisinesFilter
+        handleSetSearchParams={(q: SearchQuery) => handleSetSearchParams(q)}
+      />
       <div className="flex flex-col gap-4">
         <Searchbar
           placeholder="Find a restaurant"
@@ -40,7 +51,7 @@ function SearchPage() {
           city={city}
           count={data?.pagination?.count}
         />
-        <div className="flex flex-col justify-between flex-1 gap-8">
+        <div className="flex flex-col justify-between flex-1 gap-14">
           <ul className="flex flex-col gap-4">
             {data?.rows.map((restaurant) => (
               <li key={restaurant.id}>

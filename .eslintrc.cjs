@@ -74,6 +74,7 @@ module.exports = {
   	"react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
   	"react/react-in-jsx-scope": "off",
+    "max-len": "off",
     "react/require-default-props": "off",
     "no-underscore-dangle": "off",
     "@typescript-eslint/no-explicit-any": "off",
