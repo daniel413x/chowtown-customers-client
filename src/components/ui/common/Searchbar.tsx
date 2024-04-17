@@ -56,7 +56,7 @@ function Searchbar({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit || handleSearchSubmitDefault)}
-        className={cn("flex items-center gap-3 justify-between flex-row border-2 rounded-full p-3 mx-5 border-orange-200/50", {
+        className={cn("flex items-center gap-3 justify-between flex-row border-2 rounded-full p-3 md:mx-5 border-orange-200/50", {
           "border-red-500": form.formState.errors.searchTerm,
         })}
       >

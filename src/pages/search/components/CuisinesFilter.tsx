@@ -1,9 +1,10 @@
-import { Label } from "@/components/ui/common/shadcn/label";
-import { cn } from "@/lib/utils";
-import { Check, XIcon } from "lucide-react";
+import {
+  ChevronDown, ChevronUp, XIcon,
+} from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SearchQuery } from "../SearchPage";
+import CuisineCheckbox from "./CuisineCheckbox";
 
 interface CuisinesFilterProps {
   handleSetSearchParams: (query: SearchQuery) => void;
@@ -14,13 +15,15 @@ function CuisinesFilter({
 }: CuisinesFilterProps) {
   const [searchParams] = useSearchParams();
   const [selectedCuisines, setSelectedCuisines] = useState<string[]>(searchParams.get("cuisines")?.split(",") || []);
-  const cuisines = [
+  const cuisinesPageOne = [
     "American",
     "BBQ",
     "Breakfast",
     "Burgers",
     "Cafe",
     "Chinese",
+  ];
+  const cuisinesPageTwo = [
     "Desserts",
     "French",
     "Greek",
@@ -42,6 +45,12 @@ function CuisinesFilter({
     "Tapas",
     "Vegan",
   ];
+  const [renderedCuisines, setRenderedCuisines] = useState<string[][]>([cuisinesPageOne]);
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const handlePressExpand = () => {
+    setRenderedCuisines(expanded ? [cuisinesPageOne] : [cuisinesPageOne, cuisinesPageTwo]);
+    setExpanded(!expanded);
+  };
   const handleCuisineChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const isChecked = e.target.checked;
@@ -78,36 +87,28 @@ function CuisinesFilter({
         )}
       </div>
       <div>
-        <ul className="space-y-2 flex flex-col">
-          {cuisines.map((c) => {
-            const isSelected = selectedCuisines.includes(c);
-            const id = `cuisine_${c}`;
-            return (
-              <li key={c}>
-                <div className="flex">
-                  <input
-                    type="checkbox"
-                    id={id}
-                    className="hidden"
-                    value={c}
-                    checked={isSelected}
-                    onChange={handleCuisineChange}
-                  />
-                  <Label
-                    className={cn("flex flex-1 items-center cursor-pointer text-sm rounded-full px-4 py-2 font-semibold border", {
-                      "border-green-600 text-green-600": isSelected,
-                      "border-orange-100 text-orange-300": !isSelected,
-                    })}
-                    htmlFor={id}
-                  >
-                    {isSelected && <Check className="mr-2" size={16} strokeWidth={3} />}
-                    {c}
-                  </Label>
-                </div>
-              </li>
-            );
-          })}
+        <ul className="flex flex-col transition-all">
+          {renderedCuisines.map((a) => a.map((c, i) => (
+            <li key={c}>
+              <CuisineCheckbox
+                index={i}
+                key={c}
+                cuisine={c}
+                isSelected={selectedCuisines.includes(c)}
+                onChange={handleCuisineChange}
+              />
+            </li>
+          )))}
         </ul>
+        <button
+          className="flex justify-center items-center w-full py-4 mt-0.5 bg-gradient-to-t from-white to-transparent z-10 text-xs uppercase"
+          onClick={handlePressExpand}
+          type="button"
+        >
+          {expanded ? <ChevronUp className="mr-1" size={16} strokeWidth={2} /> : <ChevronDown className="mr-1" size={16} strokeWidth={2} />}
+          Show
+          {` ${expanded ? "less" : "more"}`}
+        </button>
       </div>
     </div>
   );
