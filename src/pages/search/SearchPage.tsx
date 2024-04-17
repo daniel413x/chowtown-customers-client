@@ -36,6 +36,9 @@ function SearchPage() {
     });
     handleSetSearchParams({ page: String(num) });
   };
+  const handleResetSearch = () => {
+    handleSetSearchParams({ page: "", searchTerm: "" });
+  };
   const initialState = isLoading && !data;
   return (
     <main className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
@@ -46,6 +49,7 @@ function SearchPage() {
         <Searchbar
           placeholder="Find a restaurant"
           onSubmit={handleSetSearch}
+          onReset={handleResetSearch}
           searchTerm={searchTerm || undefined}
         />
         {initialState ? (
