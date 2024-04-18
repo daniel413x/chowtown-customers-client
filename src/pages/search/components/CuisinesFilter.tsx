@@ -109,14 +109,15 @@ function CuisinesFilter({
       </div>
       <div>
         <ul className="flex flex-col transition-all">
-          {renderedCuisines.map((a) => a.map((c, i) => (
+          {renderedCuisines.map((a, groupIndex) => a.map((c, cuisineIndex) => (
             <li key={c}>
               <CuisineCheckbox
-                index={i}
+                index={cuisineIndex}
                 key={c}
                 cuisine={c}
                 isSelected={selectedCuisines.includes(c)}
                 onChange={handleCuisineChange}
+                alwaysShow={groupIndex === 0}
               />
             </li>
           )))}

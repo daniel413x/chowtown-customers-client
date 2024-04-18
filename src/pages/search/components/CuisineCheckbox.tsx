@@ -10,17 +10,18 @@ interface CuisineCheckboxProps {
   cuisine: string;
   isSelected: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  alwaysShow?: boolean;
 }
 
 function CuisineCheckbox({
-  cuisine, isSelected, onChange, index,
+  cuisine, isSelected, onChange, index, alwaysShow,
 }: CuisineCheckboxProps) {
   const id = `cuisine_${cuisine}`;
-  const [show, setShow] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(alwaysShow || false);
   useEffect(() => {
     setTimeout(() => {
       setShow(true);
-    }, 50 * index);
+    }, 20 * index);
   }, []);
   return (
     <div
@@ -30,7 +31,7 @@ function CuisineCheckbox({
         marginBottom: show ? "2px" : "0px",
         height: show ? "38px" : "0px",
         overflow: "hidden",
-        transition: "all ease-out 0.175s",
+        transition: "all linear 0.05s",
       }}
     >
       <input
