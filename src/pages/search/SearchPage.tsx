@@ -10,7 +10,9 @@ export type SearchQuery = { [param: string]: string | undefined; };
 
 function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data, isLoading } = useSearchRestaurants();
+  const {
+    data, isLoading, isFetching, currentRowsLength,
+  } = useSearchRestaurants();
   const searchTerm = searchParams.get("searchTerm");
   // retain previously set search params and delete those where empty string
   function handleSetSearchParams(query: SearchQuery) {
@@ -61,7 +63,7 @@ function SearchPage() {
         )}
         <div className="flex flex-col justify-between flex-1 gap-14">
           <ul className="flex flex-col gap-4">
-            {isLoading ? Array(data?.rows.length).fill("").map((_, i) => (
+            {isLoading || isFetching ? Array(currentRowsLength || 3).fill("").map((_, i) => (
               <SearchResultCardSkeleton key={i} />
             )) : null}
             {data?.rows.map((restaurant) => (

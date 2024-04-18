@@ -2,10 +2,12 @@ import { useQuery } from "react-query";
 import { toast } from "sonner";
 import { useQueryUrl } from "@/pages/search/hooks/useQueryUrl";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { errorCatch } from "../utils";
 import { RestaurantGETManyRes } from "../types";
 
 export const useSearchRestaurants = () => {
+  const [currentRowsLength, setCurrentRowsLength] = useState(0);
   const city = useParams().city || "Washington, D.C.";
   const url = useQueryUrl();
   const getRestaurantReq: () => Promise<RestaurantGETManyRes> = async () => {
@@ -18,7 +20,9 @@ export const useSearchRestaurants = () => {
     const results = await Promise.all([res, fakeDelay]);
     return results[0].json();
   };
-  const { data: fetchedData, isLoading, error } = useQuery(
+  const {
+    data: fetchedData, isLoading, isFetching, error,
+  } = useQuery(
     [url],
     getRestaurantReq,
     {
@@ -30,7 +34,12 @@ export const useSearchRestaurants = () => {
   if (error) {
     toast.error(errorCatch(error));
   }
+  useEffect(() => {
+    if (fetchedData) {
+      setCurrentRowsLength(fetchedData.rows.length);
+    }
+  }, [fetchedData]);
   return {
-    data: fetchedData, isLoading,
+    data: fetchedData, isLoading, isFetching, currentRowsLength,
   };
 };
