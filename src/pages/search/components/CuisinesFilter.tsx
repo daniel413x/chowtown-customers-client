@@ -1,10 +1,18 @@
 import {
   ChevronDown, ChevronUp, XIcon,
 } from "lucide-react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
+import { useQuery } from "react-query";
+import qs from "query-string";
 import { SearchQuery } from "../SearchPage";
 import CuisineCheckbox from "./CuisineCheckbox";
+import { useQueryUrl } from "../hooks/useQueryUrl";
+
+function useObserveQuery(queryKey: string[]) {
+  return useQuery(queryKey, { enabled: false });
+}
 
 interface CuisinesFilterProps {
   handleSetSearchParams: (query: SearchQuery) => void;
@@ -13,6 +21,18 @@ interface CuisinesFilterProps {
 function CuisinesFilter({
   handleSetSearchParams,
 }: CuisinesFilterProps) {
+  const url = useQueryUrl();
+  const { status } = useObserveQuery([url]);
+  const [urlToCheckSuccess, setUrlToCheckSuccess] = useState<string>("");
+  // improve mobile ux; check status emitted by useQuery after a cuisine filter change and display a toast if successful
+  useEffect(() => {
+    if (url === urlToCheckSuccess) {
+      if (status === "success") {
+        toast.message("Restaurant list updated!", { position: "bottom-right" });
+        setUrlToCheckSuccess("");
+      }
+    }
+  }, [urlToCheckSuccess, status, url]);
   const [searchParams] = useSearchParams();
   const [selectedCuisines, setSelectedCuisines] = useState<string[]>(searchParams.get("cuisines")?.split(",") || []);
   const cuisinesPageOne = [
@@ -58,6 +78,7 @@ function CuisinesFilter({
     setSelectedCuisines(nextSelectedCuisinesArr);
     const nextSelectedCuisinesStr = nextSelectedCuisinesArr.join(",");
     handleSetSearchParams({ cuisines: nextSelectedCuisinesStr, page: "" });
+    setUrlToCheckSuccess(qs.stringifyUrl({ url, query: { cuisines: nextSelectedCuisinesStr } }));
   };
   const isFiltering = selectedCuisines.length > 0;
   const handleReset = () => {
