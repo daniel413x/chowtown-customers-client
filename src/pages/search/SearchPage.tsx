@@ -1,6 +1,6 @@
 import Searchbar, { SearchForm } from "@/components/ui/common/Searchbar";
 import { useSearchRestaurants } from "@/lib/api/RestaurantApi";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import PageControl, { PageControlSkeleton } from "@/components/ui/common/PageControl";
 import SearchInfo, { SearchInfoSkeleton } from "./components/SearchInfo";
 import SearchResultCard, { SearchResultCardSkeleton } from "./components/SearchResultCard";
@@ -9,9 +9,8 @@ import CuisinesFilter from "./components/CuisinesFilter";
 export type SearchQuery = { [param: string]: string | undefined; };
 
 function SearchPage() {
-  const city = useParams().city || "Washington, D.C.";
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data, isLoading } = useSearchRestaurants(city, searchParams);
+  const { data, isLoading } = useSearchRestaurants();
   const searchTerm = searchParams.get("searchTerm");
   // retain previously set search params and delete those where empty string
   function handleSetSearchParams(query: SearchQuery) {
@@ -55,15 +54,14 @@ function SearchPage() {
         {initialState ? (
           <SearchInfoSkeleton />
         ) : null}
-        {!data?.pagination || !city ? null : (
+        {!data?.pagination ? null : (
           <SearchInfo
-            city={city}
             count={data?.pagination?.count}
           />
         )}
         <div className="flex flex-col justify-between flex-1 gap-14">
           <ul className="flex flex-col gap-4">
-            {isLoading ? Array(3).fill("").map((_, i) => (
+            {isLoading ? Array(data?.rows.length).fill("").map((_, i) => (
               <SearchResultCardSkeleton key={i} />
             )) : null}
             {data?.rows.map((restaurant) => (

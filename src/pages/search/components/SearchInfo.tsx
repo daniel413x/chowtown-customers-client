@@ -1,15 +1,14 @@
 import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 interface SearchInfoProps {
   count?: number;
-  city?: string;
 }
 
 function SearchInfo({
   count,
-  city,
 }: SearchInfoProps) {
+  const city = useParams().city || "Washington, D.C.";
   if (!city) {
     return null;
   }
