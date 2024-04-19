@@ -13,6 +13,7 @@ export const useQueryUrl = () => {
       page: searchParams.get("page") || 1,
       searchTerm: searchParams.get("searchTerm"),
       cuisines: searchParams.get("cuisines"),
+      sortBy: searchParams.get("sortBy"),
     },
   }, { skipNull: true });
   return url;

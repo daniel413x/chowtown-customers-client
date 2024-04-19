@@ -5,6 +5,7 @@ import PageControl, { PageControlSkeleton } from "@/components/ui/common/PageCon
 import SearchInfo, { SearchInfoSkeleton } from "./components/SearchInfo";
 import SearchResultCard, { SearchResultCardSkeleton } from "./components/SearchResultCard";
 import CuisinesFilter from "./components/CuisinesFilter";
+import SortOptionDropdown from "./components/SortOptionDropdown";
 
 export type SearchQuery = { [param: string]: string | undefined; };
 
@@ -40,6 +41,9 @@ function SearchPage() {
   const handleResetSearch = () => {
     handleSetSearchParams({ page: "", searchTerm: "" });
   };
+  const handleSetSort = (sortBy: string) => {
+    handleSetSearchParams({ sortBy });
+  };
   const initialState = isLoading && !data;
   return (
     <main className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
@@ -53,14 +57,20 @@ function SearchPage() {
           onReset={handleResetSearch}
           searchTerm={searchTerm || undefined}
         />
-        {initialState ? (
-          <SearchInfoSkeleton />
-        ) : null}
-        {!data?.pagination ? null : (
-          <SearchInfo
-            count={data?.pagination?.count}
+        <div className="flex justify-between items-center gap-3 flex-col lg:flex-row mb-4 lg:mb-0">
+          {initialState ? (
+            <SearchInfoSkeleton />
+          ) : null}
+          {!data?.pagination ? null : (
+            <SearchInfo
+              count={data?.pagination?.count}
+            />
+          )}
+          <SortOptionDropdown
+            onChange={handleSetSort}
+            sortOption={searchParams.get("sortBy") || ""}
           />
-        )}
+        </div>
         <div className="flex flex-col justify-between flex-1 gap-14">
           <ul className="flex flex-col gap-4">
             {isLoading || isFetching ? Array(currentRowsLength || 3).fill("").map((_, i) => (
