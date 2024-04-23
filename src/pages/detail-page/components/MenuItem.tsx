@@ -1,8 +1,6 @@
-import {
-  Card, CardContent, CardHeader, CardTitle,
-} from "@/components/ui/common/shadcn/card";
 import { MenuItem as MenuItemType } from "@/lib/types";
-import { intToPrice } from "@/lib/utils";
+import ConfirmModal from "./ConfirmModal";
+import MenuItemCard from "./MenuItemCard";
 
 interface MenuItemProps {
   menuItem: MenuItemType;
@@ -14,27 +12,18 @@ function MenuItem({
   handleAddCartItem,
 }: MenuItemProps) {
   return (
-    <button
-      className="flex w-full group"
-      type="button"
-      onClick={() => handleAddCartItem(menuItem)}
+    <ConfirmModal
+      onConfirm={() => handleAddCartItem(menuItem)}
+      menuItem={menuItem}
     >
-      <Card className="w-full group-hover:bg-orange-400 group-hover:text-white ">
-        <CardHeader>
-          <CardTitle>
-            {menuItem.name}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <span>
-            $
-          </span>
-          <span className="text-xl">
-            {intToPrice(menuItem.price)}
-          </span>
-        </CardContent>
-      </Card>
-    </button>
+      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+      <button
+        className="flex w-full group"
+        type="button"
+      >
+        <MenuItemCard menuItem={menuItem} />
+      </button>
+    </ConfirmModal>
   );
 }
 

@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/common/shadcn/separator";
 import { CartItem, Restaurant } from "@/lib/types";
 import { intToPrice } from "@/lib/utils";
 import { Trash } from "lucide-react";
+import RemoveModal from "./RemoveModal";
 
 function DotSeparator() {
   return <div className="border-0 border-dotted border-b-8 border-b-stone-200 flex-1 self-end" />;
@@ -60,14 +61,18 @@ function OrderSummary({
                   </span>
                   <DotSeparator />
                   <span className="flex items-center gap-1">
-                    {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-                    <button
-                      className="p-2"
-                      onClick={() => handleRemoveFromCart(cartItem)}
-                      type="button"
+                    <RemoveModal
+                      onConfirm={() => handleRemoveFromCart(cartItem)}
+                      cartItem={cartItem}
                     >
-                      <Trash color="red" size={20} />
-                    </button>
+                      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                      <button
+                        className="p-2"
+                        type="button"
+                      >
+                        <Trash color="red" size={20} />
+                      </button>
+                    </RemoveModal>
                     $
                     {intToPrice(cartItem.price * cartItem.quantity)}
                   </span>

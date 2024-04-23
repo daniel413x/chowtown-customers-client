@@ -3,6 +3,7 @@ import { useGetRestaurant } from "@/lib/api/RestaurantApi";
 import { AspectRatio } from "@/components/ui/common/shadcn/aspect-ratio";
 import { useState } from "react";
 import { CartItem, MenuItem as MenuItemType } from "@/lib/types";
+import { toast } from "sonner";
 import RestaurantInfo from "./components/RestaurantInfo";
 import MenuItem from "./components/MenuItem";
 import OrderSummary from "./components/OrderSummary";
@@ -36,12 +37,14 @@ function DetailPage() {
       }
       return nextCartItems;
     });
+    toast.message(`${selectedMenuItem.name} ...added to your cart!`, { position: "bottom-right" });
   };
   const handleRemoveFromCart = (selectedMenuItem: MenuItemType) => {
     setCartItems((prev) => {
       const nextCartItems = prev.filter((cartItem) => cartItem.id !== selectedMenuItem.id);
       return nextCartItems;
     });
+    toast.message(`${selectedMenuItem.name} ...was removed from your cart`, { position: "bottom-right" });
   };
   if (isLoading || !restaurant) {
     return "Loading";
