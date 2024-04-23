@@ -4,7 +4,32 @@ import { useQueryUrl } from "@/pages/search/hooks/useQueryUrl";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { errorCatch } from "../utils";
-import { RestaurantGETManyRes } from "../types";
+import { Restaurant, RestaurantGETManyRes } from "../types";
+import { RESTAURANT_ROUTE } from "../consts";
+
+const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
+
+export const useGetRestaurant = (slug?: string) => {
+  const getRestaurantRequest = async (): Promise<Restaurant> => {
+    const res = await fetch(`${API_BASE_URL}/${RESTAURANT_ROUTE}/${slug}`);
+    if (!res.ok) {
+      throw new Error("Failed to get restaurant");
+    }
+    return res.json();
+  };
+  const {
+    data: restaurant, isLoading,
+  } = useQuery(
+    [slug],
+    getRestaurantRequest,
+    {
+      enabled: !!slug,
+    },
+  );
+  return {
+    restaurant, isLoading,
+  };
+};
 
 export const useSearchRestaurants = () => {
   const [currentRowsLength, setCurrentRowsLength] = useState(0);

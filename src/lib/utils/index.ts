@@ -5,6 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const intToPrice = (val: number | string) => (Number(val) * 0.01).toFixed(2);
+
 export const errorCatch = (error: any): string => {
   if (typeof error === "string") {
     return error;

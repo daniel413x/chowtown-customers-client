@@ -19,6 +19,7 @@ interface GETManyRes<T> {
 }
 
 export interface MenuItem {
+  id: string;
   name: string;
   price: number;
 }
@@ -37,6 +38,13 @@ export interface Restaurant {
   menuItems: MenuItem[];
   lastUpdated: string;
   isActivatedByUser: boolean;
+}
+
+export interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
 }
 
 export interface RestaurantGETManyRes extends GETManyRes<Restaurant> {}
