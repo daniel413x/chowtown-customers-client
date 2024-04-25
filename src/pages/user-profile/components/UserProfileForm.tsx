@@ -50,7 +50,6 @@ function UserProfileForm({
     },
   });
   const { handleSubmit } = form;
-  //
   useEffect(() => {
     form.reset(user);
   }, [user, form]);
@@ -64,7 +63,7 @@ function UserProfileForm({
       >
         <div>
           <h2 className="text-2xl font-bold">
-            User Profile Form
+            Your Profile
           </h2>
           <FormDescription>
             View and change your profile information here
@@ -100,6 +99,7 @@ function UserProfileForm({
                 <Input
                   {...field}
                   className="bg-white"
+                  data-testid="user-profile-form-name-field"
                 />
               </FormControl>
               <FormMessage />
@@ -168,6 +168,7 @@ function UserProfileForm({
           <Button
             className="bg-orange-500"
             type="submit"
+            data-testid="user-profile-form-submit-btn"
           >
             Submit
           </Button>

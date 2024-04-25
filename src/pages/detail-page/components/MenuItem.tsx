@@ -20,6 +20,7 @@ function MenuItem({
       <button
         className="flex w-full group"
         type="button"
+        data-testid={`menu-item-${menuItem.id}`}
       >
         <MenuItemCard menuItem={menuItem} />
       </button>

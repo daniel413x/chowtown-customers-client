@@ -59,6 +59,7 @@ function Searchbar({
         className={cn("flex items-center gap-3 justify-between flex-row border-2 rounded-full p-3 md:mx-5 border-orange-200/50", {
           "border-red-500": form.formState.errors.searchTerm,
         })}
+        data-testid="searchbar-form"
       >
         <Search
           className="ml-1 text-orange-500 hidden md:block"
@@ -71,7 +72,12 @@ function Searchbar({
           render={(({ field }) => (
             <FormItem className="flex-1">
               <FormControl>
-                <Input {...field} placeholder={placeholder} className="border-none shadow-none text-xl focus-visible:ring-0" />
+                <Input
+                  {...field}
+                  placeholder={placeholder}
+                  className="border-none shadow-none text-xl focus-visible:ring-0"
+                  data-testid="searchbar-input"
+                />
               </FormControl>
             </FormItem>
           ))}
@@ -89,6 +95,7 @@ function Searchbar({
         <Button
           type="submit"
           className="rounded-full bg-orange-500"
+          data-testid="searchbar-submit"
         >
           Search
         </Button>

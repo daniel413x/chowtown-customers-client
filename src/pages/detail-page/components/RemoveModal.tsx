@@ -42,11 +42,11 @@ function RemoveModal({
           <MenuItemCard menuItem={cartItem} />
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction onClick={handleConfirm}>
+          <AlertDialogAction onClick={handleConfirm} data-testid="modal-confirm-button">
             <Trash className="mr-1" size={18} />
             Remove
           </AlertDialogAction>
-          <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
+          <AlertDialogCancel onClick={(e) => e.stopPropagation()} data-testid="modal-cancel-button">
             <Undo className="mr-1" size={20} />
             Return
           </AlertDialogCancel>

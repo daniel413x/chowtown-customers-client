@@ -37,7 +37,10 @@ function OrderSummary({
     <Card>
       <CardHeader>
         <CardTitle className="text-2xl font-bold tracking-tight flex justify-between">
-          <span>
+          <span
+            data-testid="your-order-span"
+            id="your-order-span"
+          >
             Your Order
           </span>
           <DotSeparator />
@@ -49,7 +52,7 @@ function OrderSummary({
       </CardHeader>
       <CardContent className="flex flex-col space-y-2">
         {noItems ? "Your order has no items" : (
-          <ul>
+          <ul data-testid="cart-items-list">
             {cartItems.map((cartItem) => (
               <li key={cartItem.id}>
                 <div className="flex justify-between items-center" key={cartItem.id}>
@@ -69,6 +72,7 @@ function OrderSummary({
                       <button
                         className="p-2"
                         type="button"
+                        data-testid={`remove-cart-item-${cartItem.id}`}
                       >
                         <Trash color="red" size={20} />
                       </button>
@@ -99,7 +103,9 @@ function OrderSummary({
           <DotSeparator />
           <span>
             $
-            {totalCost}
+            <span data-testid="total">
+              {totalCost}
+            </span>
           </span>
         </div>
         <Separator />

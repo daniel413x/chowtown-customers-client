@@ -7,6 +7,8 @@ export function cn(...inputs: ClassValue[]) {
 
 export const intToPrice = (val: number | string) => (Number(val) * 0.01).toFixed(2);
 
+export const priceToInt = (val: number | string) => Math.round(Number(val) * 100);
+
 export const errorCatch = (error: any): string => {
   if (typeof error === "string") {
     return error;

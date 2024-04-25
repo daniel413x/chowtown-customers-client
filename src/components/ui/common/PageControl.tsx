@@ -48,6 +48,7 @@ function PageControl({
             className={cn("cursor-pointer hover:bg-orange-500/10", {
               "opacity-25 pointer-events-none cursor-none": page === 1,
             })}
+            data-testid="pagination-prev-button"
           />
         </PaginationItem>
         {pageNumbers.map((num) => (
@@ -59,6 +60,7 @@ function PageControl({
               className={cn("cursor-pointer hover:bg-orange-500/10", {
                 "pointer-events-none cursor-none bg-orange-400 text-white border-none": page === num,
               })}
+              data-testid={`pagination-page-button-${num}`}
             >
               {num}
             </PaginationLink>
@@ -71,6 +73,7 @@ function PageControl({
             className={cn("cursor-pointer hover:bg-orange-500/10", {
               "opacity-25 pointer-events-none cursor-none": pageLimitReached,
             })}
+            data-testid="pagination-next-button"
           />
         </PaginationItem>
       </PaginationContent>

@@ -47,6 +47,7 @@ function CuisineCheckbox({
           "border-green-600 text-green-600": isSelected,
           "border-orange-100 text-orange-300": !isSelected,
         })}
+        data-testid={`cuisine-checkbox-${cuisine.toLowerCase()}`}
         htmlFor={id}
         tabIndex={0}
       >

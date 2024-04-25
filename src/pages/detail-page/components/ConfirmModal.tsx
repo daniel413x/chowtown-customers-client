@@ -40,11 +40,11 @@ function ConfirmModal({
           <MenuItemCard menuItem={menuItem} />
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction onClick={handleConfirm}>
+          <AlertDialogAction onClick={handleConfirm} data-testid="modal-confirm-button">
             <ShoppingBasket className="mr-1" size={20} />
             Add
           </AlertDialogAction>
-          <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
+          <AlertDialogCancel onClick={(e) => e.stopPropagation()} data-testid="modal-cancel-button">
             <Undo className="mr-1" size={20} />
             Return
           </AlertDialogCancel>

@@ -4,3 +4,7 @@ Object.defineProperty(global.self, 'crypto', {
   }
 })
 global.crypto.subtle = {}
+
+jest.mock('query-string', () => ({
+  stringifyUrl: jest.fn().mockImplementation(({ url, query }) => `${url}?${new URLSearchParams(query).toString()}`),
+}));

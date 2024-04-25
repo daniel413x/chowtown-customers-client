@@ -67,11 +67,12 @@ function DetailPage() {
           </span>
           <ul>
             {restaurant.menuItems.map((menuItem) => (
-              <MenuItem
-                key={menuItem.name}
-                menuItem={menuItem}
-                handleAddCartItem={handleAddCartItem}
-              />
+              <li key={menuItem.name}>
+                <MenuItem
+                  menuItem={menuItem}
+                  handleAddCartItem={handleAddCartItem}
+                />
+              </li>
             ))}
           </ul>
         </div>
