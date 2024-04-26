@@ -16,7 +16,11 @@ function DetailPage() {
     restaurant,
     isLoading,
   } = useGetRestaurant(restaurantName);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const sessionStorageKey = `cartItems-${restaurantName}`;
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const storedCartItems = sessionStorage.getItem(sessionStorageKey);
+    return storedCartItems ? JSON.parse(storedCartItems) : [];
+  });
   const handleAddCartItem = (selectedMenuItem: MenuItemType) => {
     setCartItems((prev) => {
       const nextCartItems: CartItem[] = [...prev];
@@ -35,6 +39,7 @@ function DetailPage() {
           quantity: 1,
         });
       }
+      sessionStorage.setItem(sessionStorageKey, JSON.stringify(nextCartItems));
       return nextCartItems;
     });
     toast.message(`${selectedMenuItem.name} ...added to your cart!`, { position: "bottom-right" });
@@ -42,6 +47,7 @@ function DetailPage() {
   const handleRemoveFromCart = (selectedMenuItem: MenuItemType) => {
     setCartItems((prev) => {
       const nextCartItems = prev.filter((cartItem) => cartItem.id !== selectedMenuItem.id);
+      sessionStorage.setItem(sessionStorageKey, JSON.stringify(nextCartItems));
       return nextCartItems;
     });
     toast.message(`${selectedMenuItem.name} ...was removed from your cart`, { position: "bottom-right" });

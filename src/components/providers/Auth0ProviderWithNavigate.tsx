@@ -1,5 +1,5 @@
 import { AUTH_CALLBACK_ROUTE } from "@/lib/consts";
-import { Auth0Provider } from "@auth0/auth0-react";
+import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,8 +19,8 @@ function Auth0ProviderWithNavigate({
     throw new Error("some Auth0 environment variables were missing");
   }
   // create user on return to app if none exists in mongo
-  const onRedirectCallback = () => {
-    navigate(`/${AUTH_CALLBACK_ROUTE}`);
+  const onRedirectCallback = (appState?: AppState) => {
+    navigate(appState?.returnTo || `/${AUTH_CALLBACK_ROUTE}`);
   };
   return (
     <Auth0Provider

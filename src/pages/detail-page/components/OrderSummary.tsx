@@ -1,12 +1,13 @@
 import { Badge } from "@/components/ui/common/shadcn/badge";
 import {
-  Card, CardContent, CardHeader, CardTitle,
+  Card, CardContent, CardFooter, CardHeader, CardTitle,
 } from "@/components/ui/common/shadcn/card";
 import { Separator } from "@/components/ui/common/shadcn/separator";
 import { CartItem, Restaurant } from "@/lib/types";
 import { intToPrice } from "@/lib/utils";
 import { Trash } from "lucide-react";
 import RemoveModal from "./RemoveModal";
+import CheckoutButton from "./CheckoutButton";
 
 function DotSeparator() {
   return <div className="border-0 border-dotted border-b-8 border-b-stone-200 flex-1 self-end" />;
@@ -50,7 +51,7 @@ function OrderSummary({
           </span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col space-y-2">
+      <CardContent className="flex flex-col space-y-2 pb-4">
         {noItems ? "Your order has no items" : (
           <ul data-testid="cart-items-list">
             {cartItems.map((cartItem) => (
@@ -110,6 +111,9 @@ function OrderSummary({
         </div>
         <Separator />
       </CardContent>
+      <CardFooter className="justify-center">
+        <CheckoutButton />
+      </CardFooter>
     </Card>
   );
 }

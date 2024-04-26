@@ -84,6 +84,7 @@ describe("DetailPage", () => {
 
   test("can accurately track price changes in the total", async () => {
     async function addItemAndCount(i: number) {
+      // get the total or start with the delivery price as the base
       const prevTotal = priceToInt(Number(screen.getByTestId("total").textContent!) || intToPrice(restaurant.deliveryPrice));
       const { price } = await addItem(i);
       const currentTotal = priceToInt(Number(screen.getByTestId("total").textContent!));
