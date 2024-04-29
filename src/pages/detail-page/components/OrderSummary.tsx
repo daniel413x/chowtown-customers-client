@@ -1,11 +1,14 @@
 import { Badge } from "@/components/ui/common/shadcn/badge";
 import {
-  Card, CardContent, CardFooter, CardHeader, CardTitle,
+  Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,
 } from "@/components/ui/common/shadcn/card";
 import { Separator } from "@/components/ui/common/shadcn/separator";
 import { CartItem, Restaurant } from "@/lib/types";
 import { intToPrice } from "@/lib/utils";
 import { Trash } from "lucide-react";
+import useBasket from "@/lib/hooks/useBasket";
+import { Link } from "react-router-dom";
+import { DETAIL_ROUTE } from "@/lib/consts";
 import RemoveModal from "./RemoveModal";
 import CheckoutButton from "./CheckoutButton";
 
@@ -14,26 +17,26 @@ function DotSeparator() {
 }
 
 interface OrderSummaryProps {
-  restaurant: Restaurant;
+  restaurantOnPage: Restaurant;
   cartItems: CartItem[];
-  handleRemoveFromCart: (cartItem: CartItem) => void;
 }
 
 function OrderSummary({
-  restaurant,
+  restaurantOnPage,
   cartItems,
-  handleRemoveFromCart,
 }: OrderSummaryProps) {
+  const { restaurant: restaurantInBasket, handleRemoveFromCart } = useBasket();
   const noItems = cartItems.length === 0;
   const getTotalCost = () => {
     if (noItems) {
       return 0;
     }
     const totalCartItemsCost = cartItems.map(({ price, quantity }) => price * quantity).reduce((a, b) => a + b, 0);
-    const totalWithDelivery = totalCartItemsCost + restaurant.deliveryPrice;
+    const totalWithDelivery = totalCartItemsCost + (restaurantInBasket?.deliveryPrice || 0);
     return intToPrice(totalWithDelivery);
   };
   const totalCost = getTotalCost();
+  const addRestaurantLabel = restaurantInBasket?.restaurantName && restaurantInBasket?.restaurantName !== restaurantOnPage.restaurantName;
   return (
     <Card>
       <CardHeader>
@@ -42,7 +45,7 @@ function OrderSummary({
             data-testid="your-order-span"
             id="your-order-span"
           >
-            Your Order
+            Your Cart
           </span>
           <DotSeparator />
           <span>
@@ -51,12 +54,24 @@ function OrderSummary({
           </span>
         </CardTitle>
       </CardHeader>
+      {addRestaurantLabel ? (
+        <CardDescription className="text-center relative bottom-2">
+          for
+          {" "}
+          <Link
+            className="text-amber-600 underline"
+            to={`/${DETAIL_ROUTE}/${restaurantInBasket!.slug}`}
+          >
+            {restaurantInBasket?.restaurantName}
+          </Link>
+        </CardDescription>
+      ) : null}
       <CardContent className="flex flex-col space-y-2 pb-4">
-        {noItems ? "Your order has no items" : (
+        {noItems ? "Your cart has no items" : (
           <ul data-testid="cart-items-list">
             {cartItems.map((cartItem) => (
               <li key={cartItem.id}>
-                <div className="flex justify-between items-center" key={cartItem.id}>
+                <div className="flex justify-between items-center" key={cartItem.id} data-testid={`cart-item-${cartItem.id}`}>
                   <span>
                     <Badge variant="outline" className="mr-2">
                       {cartItem.quantity}
@@ -92,9 +107,9 @@ function OrderSummary({
             Delivery
           </span>
           <DotSeparator />
-          <span>
+          <span data-testid="delivery-price">
             $
-            {noItems ? 0 : intToPrice(restaurant.deliveryPrice)}
+            {noItems ? 0 : intToPrice(restaurantInBasket!.deliveryPrice)}
           </span>
         </div>
         <div className="flex justify-between">

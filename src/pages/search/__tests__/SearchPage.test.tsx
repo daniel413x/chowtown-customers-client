@@ -50,6 +50,7 @@ jest.mocked(RestaurantApiHooks.useSearchRestaurants).mockReturnValue({
       menuItems: [],
       lastUpdated: "",
       isActivatedByUser: "",
+      id: "1",
     }],
     pagination: {
       page: 1,

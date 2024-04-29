@@ -1,20 +1,20 @@
-import { MenuItem as MenuItemType } from "@/lib/types";
+import { MenuItem as MenuItemType, Restaurant } from "@/lib/types";
 import ConfirmModal from "./ConfirmModal";
 import MenuItemCard from "./MenuItemCard";
 
 interface MenuItemProps {
   menuItem: MenuItemType;
-  handleAddCartItem: (selectedMenuItem: MenuItemType) => void;
+  restaurant: Restaurant;
 }
 
 function MenuItem({
   menuItem,
-  handleAddCartItem,
+  restaurant,
 }: MenuItemProps) {
   return (
     <ConfirmModal
-      onConfirm={() => handleAddCartItem(menuItem)}
       menuItem={menuItem}
+      restaurant={restaurant}
     >
       {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
       <button

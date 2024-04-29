@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    "jest/globals": true
   },
   settings: {
     "react": {
@@ -44,6 +45,7 @@ module.exports = {
   plugins: [
     "@typescript-eslint",
     "react",
+    "jest"
   ],
   rules: {
     indent: [
