@@ -5,8 +5,8 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { intToPrice, priceToInt } from "@/lib/utils";
 import useBasket from "@/lib/hooks/useBasket";
-import DetailPage from "../DetailPage";
 import { act } from "react-dom/test-utils";
+import DetailPage from "../DetailPage";
 
 jest.mock("@/lib/api/RestaurantApi", () => ({
   useGetRestaurant: jest.fn(),
@@ -150,7 +150,7 @@ describe("DetailPage", () => {
     const restaurantInBasket = {
       ...testRestaurant,
       deliveryPrice: 1200,
-    }
+    };
     act(() => useBasket.getState().handleAddCartItem(menuItems[0], restaurantInBasket));
     render(<MemoryRouter><DetailPage /></MemoryRouter>);
     const ddprice = screen.getByTestId("delivery-price");

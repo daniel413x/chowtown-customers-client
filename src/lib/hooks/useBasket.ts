@@ -15,8 +15,7 @@ export const sessionRestaurantStorageKey = "sessionRestaurant";
 const storedCartItems = sessionStorage.getItem(sessionCartItemsStorageKey);
 const storedRestaurant = sessionStorage.getItem(sessionRestaurantStorageKey);
 
-const useBasket = create<BasketModalStore>((set, get) => {
-  return {
+const useBasket = create<BasketModalStore>((set, get) => ({
   restaurant: storedRestaurant ? JSON.parse(storedRestaurant) : {},
   cartItems: storedCartItems ? JSON.parse(storedCartItems) : [],
   handleAddCartItem: (selectedMenuItem: MenuItem, restaurant: Restaurant) => {
@@ -69,7 +68,6 @@ const useBasket = create<BasketModalStore>((set, get) => {
     });
     sessionStorage.clear();
   },
-}
-} );
+}));
 
 export default useBasket;

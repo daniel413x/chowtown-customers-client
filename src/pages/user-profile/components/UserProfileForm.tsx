@@ -4,6 +4,7 @@ import {
   FormControl, FormDescription, FormField, FormItem, FormLabel, Form, FormMessage,
 } from "@/components/ui/common/shadcn/form";
 import { Input } from "@/components/ui/common/shadcn/input";
+import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
 import { User } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
@@ -26,18 +27,24 @@ const formSchema = z.object({
   }),
 });
 
-type UserFormData = z.infer<typeof formSchema>;
+export type UserFormData = z.infer<typeof formSchema>;
 
 interface UserProfileFormProps {
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
   user: User;
+  title?: string;
+  desc?: string;
+  buttonText?: string;
 }
 
 function UserProfileForm({
   onSave,
   isLoading,
   user,
+  title = "Your Profile",
+  desc = "View and change your profile information here",
+  buttonText = "Submit",
 }: UserProfileFormProps) {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
@@ -63,10 +70,10 @@ function UserProfileForm({
       >
         <div>
           <h2 className="text-2xl font-bold">
-            Your Profile
+            {title}
           </h2>
           <FormDescription>
-            View and change your profile information here
+            {desc}
           </FormDescription>
         </div>
         <FormField
@@ -170,11 +177,35 @@ function UserProfileForm({
             type="submit"
             data-testid="user-profile-form-submit-btn"
           >
-            Submit
+            {buttonText}
           </Button>
         )}
       </form>
     </Form>
+  );
+}
+
+export function UserProfileFormSkeleton() {
+  return (
+    <div className="flex flex-col md:p-10 space-y-4 h-[416px]">
+      <Skeleton className="h-10 w-[200px]" />
+      <div className="flex flex-col gap-1">
+        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-8 w-full" />
+      </div>
+      <div className="flex flex-col gap-1">
+        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-8 w-full" />
+      </div>
+      <div className="flex flex-col gap-1">
+        <Skeleton className="h-10 w-24" />
+        <div className="grid grid-cols-3 gap-3">
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+        </div>
+      </div>
+    </div>
   );
 }
 

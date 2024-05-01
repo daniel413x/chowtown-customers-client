@@ -14,7 +14,7 @@ function MainLayout({
 }: MainLayoutProps) {
   return (
     <div
-      className="flex flex-col min-h-screen"
+      className="flex flex-col h-full"
       data-testid="main-layout"
     >
       <Header />

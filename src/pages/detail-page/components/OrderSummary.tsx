@@ -4,7 +4,7 @@ import {
 } from "@/components/ui/common/shadcn/card";
 import { Separator } from "@/components/ui/common/shadcn/separator";
 import { CartItem, Restaurant } from "@/lib/types";
-import { intToPrice } from "@/lib/utils";
+import { getTotalCost, intToPrice } from "@/lib/utils";
 import { Trash } from "lucide-react";
 import useBasket from "@/lib/hooks/useBasket";
 import { Link } from "react-router-dom";
@@ -27,14 +27,6 @@ function OrderSummary({
 }: OrderSummaryProps) {
   const { restaurant: restaurantInBasket, handleRemoveFromCart } = useBasket();
   const noItems = cartItems.length === 0;
-  const getTotalCost = () => {
-    if (noItems) {
-      return 0;
-    }
-    const totalCartItemsCost = cartItems.map(({ price, quantity }) => price * quantity).reduce((a, b) => a + b, 0);
-    const totalWithDelivery = totalCartItemsCost + (restaurantInBasket?.deliveryPrice || 0);
-    return intToPrice(totalWithDelivery);
-  };
   const totalCost = getTotalCost();
   const addRestaurantLabel = restaurantInBasket?.restaurantName && restaurantInBasket?.restaurantName !== restaurantOnPage.restaurantName;
   return (
