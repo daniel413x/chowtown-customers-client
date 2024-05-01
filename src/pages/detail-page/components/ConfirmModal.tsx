@@ -6,7 +6,7 @@ import { ArrowRight, ShoppingBasket, Undo } from "lucide-react";
 import { MenuItem, Restaurant } from "@/lib/types";
 import useBasket from "@/lib/hooks/useBasket";
 import { Button } from "@/components/ui/common/shadcn/button";
-import MenuItemCard from "./MenuItemCard";
+import MenuItemCard from "../../../components/ui/common/menu-items/MenuItemCard";
 
 interface ConfirmModalProps {
   menuItem: MenuItem;

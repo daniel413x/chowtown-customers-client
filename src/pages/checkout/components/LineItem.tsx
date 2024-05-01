@@ -23,17 +23,16 @@ function LineItem({
         <span className="uppercase">
           {label}
         </span>
-        {!quantity ? null : (
-          <div className="absolute -bottom-1">
-            <span>
-              Qt.
-              {quantity}
-            </span>
-          </div>
-        )}
+        {quantity && quantity > 1 ? (
+          <span>
+            &#8213;
+            Qty.
+            {quantity}
+          </span>
+        ) : null}
       </div>
       <DotSeparator />
-      <Price price={price} noIntToPrice={noIntToPrice} />
+      <Price price={Number(price) * (quantity || 1)} noIntToPrice={noIntToPrice} />
     </div>
   );
 }

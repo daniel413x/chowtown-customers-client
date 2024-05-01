@@ -7,6 +7,7 @@ interface BasketModalStore {
   cartItems: CartItem[];
   handleAddCartItem: (selectedMenuItem: MenuItem, restaurant: Restaurant) => void;
   handleRemoveFromCart: (selectedMenuItem: MenuItem) => void;
+  handleChangeQuantity: (quantity: number, id: string) => void;
   reset: () => void;
 }
 
@@ -60,6 +61,23 @@ const useBasket = create<BasketModalStore>((set, get) => ({
     sessionStorage.setItem(sessionCartItemsStorageKey, JSON.stringify(nextCartItems));
     set({ cartItems: nextCartItems });
     toast.message(`${selectedMenuItem.name} ...was removed from your cart`, { position: "bottom-right" });
+  },
+  handleChangeQuantity: (quantity: number, id: string) => {
+    if (!quantity) {
+      return;
+    }
+    const prev = get().cartItems;
+    const nextCartItems = prev.map((cartItem) => {
+      if (cartItem.id === id) {
+        return {
+          ...cartItem,
+          quantity,
+        };
+      }
+      return cartItem;
+    });
+    sessionStorage.setItem(sessionCartItemsStorageKey, JSON.stringify(nextCartItems));
+    set({ cartItems: nextCartItems });
   },
   reset: () => {
     set({

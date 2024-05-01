@@ -31,7 +31,7 @@ const menuItems = [
 ];
 
 const testRestaurant = {
-  restaurantName: "",
+  restaurantName: "test restaurant",
   slug: "",
   id: "",
   userId: "",
@@ -51,23 +51,33 @@ jest.mocked(RestaurantApiHooks.useGetRestaurant).mockReturnValue({
   isLoading: false,
 } as any);
 
-async function itemIsInCart(id: string) {
-  await waitFor(() => {
-    const cartItem = screen.getByTestId(`cart-item-${id}`);
-    expect(cartItem).toBeInTheDocument();
-  });
-}
-
 async function addItem(i: number) {
   const {
     id,
+    name,
   } = menuItems[i];
   const menuItem = screen.getByTestId(`menu-item-${id}`);
   await userEvent.click(menuItem);
   const confirmAddButton = screen.getByTestId("modal-confirm-button");
   await userEvent.click(confirmAddButton);
-  await itemIsInCart(id);
+  const cartItems = screen.getByTestId("cart-items-list");
+  expect(cartItems).toHaveTextContent(name);
   return menuItems[i];
+}
+
+async function removeItem(i: number) {
+  const cartItem = screen.getByTestId(`cart-item-${i}`);
+  await userEvent.click(cartItem);
+  const removeButton = screen.getByTestId("modal-remove-button");
+  await userEvent.click(removeButton);
+  await waitFor(async () => {
+    const confirmButton = screen.getByTestId("remove-modal-confirm-button");
+    await userEvent.click(confirmButton);
+  });
+  await waitFor(() => {
+    const cartItems = screen.getByTestId("cart-items-list");
+    expect(cartItems).not.toContain(cartItem);
+  });
 }
 
 describe("DetailPage", () => {
@@ -82,19 +92,9 @@ describe("DetailPage", () => {
   // test adding two items and then removing one
   test("can add and delete items from the cart", async () => {
     render(<MemoryRouter><DetailPage /></MemoryRouter>);
-    const {
-      id: removedId,
-      name: removedName,
-    } = await addItem(0);
+    await addItem(0);
     await addItem(1);
-    const removeButton = screen.getByTestId(`remove-cart-item-${removedId}`);
-    await userEvent.click(removeButton);
-    const confirmRemoveButton = screen.getByTestId("modal-confirm-button");
-    await userEvent.click(confirmRemoveButton);
-    await waitFor(() => {
-      const cartItems = screen.getByTestId("cart-items-list");
-      expect(cartItems.textContent).not.toContain(removedName);
-    });
+    await removeItem(1);
   });
 
   test("can accurately track price changes in the total", async () => {
@@ -133,16 +133,25 @@ describe("DetailPage", () => {
     expect(screen).not.toContain("Empty basket and add item");
   });
 
+  test("tells the user their cart items are relevant to a different restaurant if their cart items are not from the same restaurant as that of the current page", async () => {
+    render(<MemoryRouter><DetailPage /></MemoryRouter>);
+    // simulate pre-adding an item from a diffferent restaurant
+    act(() => useBasket.getState().handleAddCartItem(menuItems[0], { ...testRestaurant, restaurantName: "different restaurant" }));
+    expect(screen.getByTestId("for-restaurant-link")).toBeInTheDocument();
+  });
+
   test("tells the user their cart will be reset if adding items from two different restaurants", async () => {
     render(<MemoryRouter><DetailPage /></MemoryRouter>);
     // simulate pre-adding an item from a diffferent restaurant
     act(() => useBasket.getState().handleAddCartItem(menuItems[0], { ...testRestaurant, restaurantName: "different restaurant" }));
     const menuItemOneButton = screen.getByTestId("menu-item-1");
     await userEvent.click(menuItemOneButton);
-    const confirmModal = screen.getByTestId("confirm-modal");
     const confirmAddButton = screen.getByTestId("modal-confirm-button");
     await userEvent.click(confirmAddButton);
-    expect(confirmModal).toHaveTextContent("Empty basket and add item");
+    waitFor(async () => {
+      const confirmModal = screen.getByTestId("confirm-modal");
+      expect(confirmModal).toHaveTextContent("Empty basket and add item");
+    });
   });
 
   test("shows the delivery price of the restaurant from which the user's current cart items were added", async () => {

@@ -1,6 +1,6 @@
 import { MenuItem as MenuItemType, Restaurant } from "@/lib/types";
 import ConfirmModal from "./ConfirmModal";
-import MenuItemCard from "./MenuItemCard";
+import MenuItemCard from "../../../components/ui/common/menu-items/MenuItemCard";
 
 interface MenuItemProps {
   menuItem: MenuItemType;

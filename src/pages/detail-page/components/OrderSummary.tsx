@@ -9,7 +9,7 @@ import { Trash } from "lucide-react";
 import useBasket from "@/lib/hooks/useBasket";
 import { Link } from "react-router-dom";
 import { DETAIL_ROUTE } from "@/lib/consts";
-import RemoveModal from "./RemoveModal";
+import CartItemControlModal from "@/components/ui/common/menu-items/CartItemControlModal";
 import CheckoutButton from "./CheckoutButton";
 
 function DotSeparator() {
@@ -25,7 +25,7 @@ function OrderSummary({
   restaurantOnPage,
   cartItems,
 }: OrderSummaryProps) {
-  const { restaurant: restaurantInBasket, handleRemoveFromCart } = useBasket();
+  const { restaurant: restaurantInBasket } = useBasket();
   const noItems = cartItems.length === 0;
   const totalCost = getTotalCost();
   const addRestaurantLabel = restaurantInBasket?.restaurantName && restaurantInBasket?.restaurantName !== restaurantOnPage.restaurantName;
@@ -53,6 +53,7 @@ function OrderSummary({
           <Link
             className="text-amber-600 underline"
             to={`/${DETAIL_ROUTE}/${restaurantInBasket!.slug}`}
+            data-testid="for-restaurant-link"
           >
             {restaurantInBasket?.restaurantName}
           </Link>
@@ -63,32 +64,27 @@ function OrderSummary({
           <ul data-testid="cart-items-list">
             {cartItems.map((cartItem) => (
               <li key={cartItem.id}>
-                <div className="flex justify-between items-center" key={cartItem.id} data-testid={`cart-item-${cartItem.id}`}>
-                  <span>
-                    <Badge variant="outline" className="mr-2">
-                      {cartItem.quantity}
-                    </Badge>
-                    {cartItem.name}
-                  </span>
-                  <DotSeparator />
-                  <span className="flex items-center gap-1">
-                    <RemoveModal
-                      onConfirm={() => handleRemoveFromCart(cartItem)}
-                      cartItem={cartItem}
-                    >
-                      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-                      <button
-                        className="p-2"
-                        type="button"
-                        data-testid={`remove-cart-item-${cartItem.id}`}
-                      >
-                        <Trash color="red" size={20} />
-                      </button>
-                    </RemoveModal>
-                    $
-                    {intToPrice(cartItem.price * cartItem.quantity)}
-                  </span>
-                </div>
+                <CartItemControlModal cartItem={cartItem}>
+                  <button
+                    className="flex justify-between items-center py-1 w-full"
+                    type="button"
+                    key={cartItem.id}
+                    data-testid={`cart-item-${cartItem.id}`}
+                  >
+                    <span>
+                      <Badge variant="outline" className="mr-2">
+                        {cartItem.quantity}
+                      </Badge>
+                      {cartItem.name}
+                    </span>
+                    <DotSeparator />
+                    <span className="flex items-center gap-1">
+                      <Trash color="red" size={20} />
+                      $
+                      {intToPrice(cartItem.price * cartItem.quantity)}
+                    </span>
+                  </button>
+                </CartItemControlModal>
               </li>
             ))}
           </ul>

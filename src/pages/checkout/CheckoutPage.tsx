@@ -2,6 +2,7 @@ import useBasket from "@/lib/hooks/useBasket";
 import { getTotalCost } from "@/lib/utils";
 import { useGetMyUser } from "@/lib/api/MyUserApi";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import CartItemControlModal from "@/components/ui/common/menu-items/CartItemControlModal";
 import ExitModal from "./components/ExitModal";
 import UserProfileForm, { UserFormData, UserProfileFormSkeleton } from "../user-profile/components/UserProfileForm";
 import LineItem from "./components/LineItem";
@@ -45,11 +46,15 @@ function CheckoutPage() {
         <ul className="flex flex-col justify-center gap-2">
           {cartItems.map((cartItem) => (
             <li key={cartItem.id}>
-              <LineItem
-                label={cartItem.name}
-                quantity={cartItem.quantity}
-                price={cartItem.price}
-              />
+              <CartItemControlModal cartItem={cartItem}>
+                <button className="w-full" type="button">
+                  <LineItem
+                    label={cartItem.name}
+                    quantity={cartItem.quantity}
+                    price={cartItem.price}
+                  />
+                </button>
+              </CartItemControlModal>
             </li>
           ))}
           <li>

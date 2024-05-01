@@ -6,16 +6,19 @@ import { intToPrice } from "@/lib/utils";
 
 interface MenuItemCardProps {
   menuItem: MenuItemType;
+  quantity?: number;
 }
 
 function MenuItemCard({
   menuItem,
+  quantity = 1,
 }: MenuItemCardProps) {
   return (
     <Card className="w-full group-hover:bg-orange-400/80 group-hover:text-white ">
       <CardHeader>
         <CardTitle className="flex justify-center">
           {menuItem.name}
+          {quantity > 1 ? ` × ${quantity}` : null}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex justify-center">
@@ -23,7 +26,7 @@ function MenuItemCard({
           $
         </span>
         <span className="text-xl">
-          {intToPrice(menuItem.price)}
+          {intToPrice(menuItem.price * Number(quantity))}
         </span>
       </CardContent>
     </Card>
