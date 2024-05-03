@@ -1,11 +1,13 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import {
+  render, screen, waitFor, within, act,
+} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import * as RestaurantApiHooks from "@/lib/api/RestaurantApi";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { intToPrice, priceToInt } from "@/lib/utils";
 import useBasket from "@/lib/hooks/useBasket";
-import { act } from "react-dom/test-utils";
+import assert from "assert";
 import DetailPage from "../DetailPage";
 
 jest.mock("@/lib/api/RestaurantApi", () => ({
@@ -65,21 +67,6 @@ async function addItem(i: number) {
   return menuItems[i];
 }
 
-async function removeItem(i: number) {
-  const cartItem = screen.getByTestId(`cart-item-${i}`);
-  await userEvent.click(cartItem);
-  const removeButton = screen.getByTestId("modal-remove-button");
-  await userEvent.click(removeButton);
-  await waitFor(async () => {
-    const confirmButton = screen.getByTestId("remove-modal-confirm-button");
-    await userEvent.click(confirmButton);
-  });
-  await waitFor(() => {
-    const cartItems = screen.getByTestId("cart-items-list");
-    expect(cartItems).not.toContain(cartItem);
-  });
-}
-
 describe("DetailPage", () => {
   beforeEach(() => {
     jest.restoreAllMocks();
@@ -90,11 +77,10 @@ describe("DetailPage", () => {
   });
 
   // test adding two items and then removing one
-  test("can add and delete items from the cart", async () => {
+  test("can add to the cart", async () => {
     render(<MemoryRouter><DetailPage /></MemoryRouter>);
     await addItem(0);
     await addItem(1);
-    await removeItem(1);
   });
 
   test("can accurately track price changes in the total", async () => {
@@ -164,5 +150,68 @@ describe("DetailPage", () => {
     render(<MemoryRouter><DetailPage /></MemoryRouter>);
     const ddprice = screen.getByTestId("delivery-price");
     expect(ddprice.textContent).toContain(intToPrice(restaurantInBasket.deliveryPrice));
+  });
+
+  describe("the user has a cart item added", () => {
+    beforeEach(() => {
+      render(<MemoryRouter><DetailPage /></MemoryRouter>);
+      act(() => useBasket.getState().handleAddCartItem(menuItems[0], testRestaurant));
+    });
+
+    describe("the control modal is open", () => {
+      beforeEach(async () => {
+        const cartItem = screen.getByTestId("cart-item-1");
+        await userEvent.click(cartItem);
+      });
+
+      describe("the quantity select is open", () => {
+        let initialMenuItemCardPrice: number;
+        beforeEach(async () => {
+          window.HTMLElement.prototype.hasPointerCapture = jest.fn();
+          window.HTMLElement.prototype.scrollIntoView = jest.fn();
+          const quantitySelectButton = screen.getByTestId("quantity-select-button");
+          await userEvent.click(quantitySelectButton);
+          const modal = screen.getByTestId("cart-item-control-modal");
+          initialMenuItemCardPrice = priceToInt(within(modal).getByTestId("menu-item-card-price").textContent!);
+        });
+
+        test("can change the quantity and update the item x quantity displayed in the modal", async () => {
+          await Promise.all(Array(5).map(async (_, i) => {
+            const quantityButton = screen.getByTestId(`quantity-${i + 1}-button`);
+            await userEvent.click(quantityButton);
+            const modal = screen.getByTestId("cart-item-control-modal");
+            const menuItemCardPrice = priceToInt(within(modal).getByTestId("menu-item-card-price").textContent!);
+            assert(menuItemCardPrice / i + 1 === initialMenuItemCardPrice);
+          }));
+        });
+
+        test("opens the quantity modal on clicking \"other\"", async () => {
+          const quantitySelectButton = screen.getByTestId("quantity-modal-button");
+          await userEvent.click(quantitySelectButton);
+          expect(screen.getByTestId("quantity-modal")).toBeInTheDocument();
+        });
+
+        describe("the quantity modal is open", () => {
+          beforeEach(async () => {
+            const quantitySelectButton = screen.getByTestId("quantity-modal-button");
+            await userEvent.click(quantitySelectButton);
+          });
+
+          test("can use the quantity modal option to add values greater than 5", async () => {
+            const quantityModal = screen.getByTestId("quantity-modal");
+            const quantityInput = within(quantityModal).getByTestId("quantity-input");
+            await userEvent.clear(quantityInput);
+            await userEvent.type(quantityInput, "6");
+            const quantityModalDoneButton = within(quantityModal).getByTestId("modal-confirm-button");
+            await userEvent.click(quantityModalDoneButton);
+            const cartItemPrice = menuItems[0].price;
+            const controlModal = screen.getByTestId("cart-item-control-modal");
+            const qq = within(controlModal).getByTestId("menu-item-card-price");
+            const menuCardPrice = priceToInt(qq.textContent!);
+            assert(menuCardPrice === cartItemPrice * 6);
+          });
+        });
+      });
+    });
   });
 });

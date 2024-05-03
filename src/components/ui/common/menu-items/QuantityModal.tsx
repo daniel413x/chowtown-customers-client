@@ -25,12 +25,13 @@ function QuantityModal({
   const [newQuantity, setNewQuantity] = useState<number>(cartItem.quantity);
   return (
     <Dialog open={open} onOpenChange={close}>
-      <DialogContent className="w-[250px]">
+      <DialogContent className="w-[250px]" data-testid="quantity-modal">
         <div className="flex flex-col">
           <span className="text-sm">
             Quantity
           </span>
           <Input
+            data-testid="quantity-input"
             type="number"
             min={1}
             value={newQuantity}

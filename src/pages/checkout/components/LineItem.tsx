@@ -32,7 +32,7 @@ function LineItem({
         ) : null}
       </div>
       <DotSeparator />
-      <Price price={Number(price) * (quantity || 1)} noIntToPrice={noIntToPrice} />
+      <Price price={Number(price) * (quantity || 1)} noIntToPrice={noIntToPrice} testIdPrefix={label} />
     </div>
   );
 }

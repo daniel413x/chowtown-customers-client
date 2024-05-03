@@ -25,7 +25,7 @@ function MenuItemCard({
         <span>
           $
         </span>
-        <span className="text-xl">
+        <span className="text-xl" data-testid="menu-item-card-price">
           {intToPrice(menuItem.price * Number(quantity))}
         </span>
       </CardContent>

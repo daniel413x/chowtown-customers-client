@@ -56,7 +56,7 @@ function CartItemControlModal({
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent data-testid="cart-item-control-modal">
         <DialogHeader>
           <MenuItemCard menuItem={cartItem} quantity={newQuantity} />
         </DialogHeader>
@@ -83,12 +83,20 @@ function CartItemControlModal({
             open={showSelect}
             onOpenChange={() => setShowSelect(!showSelect)}
           >
-            <SelectTrigger className="w-[90px]">
+            <SelectTrigger className="w-[90px]" data-testid="quantity-select-button" onClick={() => null}>
               <SelectValue defaultValue={String(newQuantity)} />
             </SelectTrigger>
             <SelectContent>
               {/* provide choices 1-5 */}
-              {Array.from({ length: 5 }, (_, i) => <SelectItem key={i} value={String(i + 1)}>{i + 1}</SelectItem>)}
+              {Array.from({ length: 5 }, (_, i) => (
+                <SelectItem
+                  key={i}
+                  value={String(i + 1)}
+                  data-testid={`quantity-${i + 1}-button`}
+                >
+                  {i + 1}
+                </SelectItem>
+              ))}
               {/* without the following SelectItem the current input value will not show for values gt 5 */}
               {/* render conditionally to prevent issue where the value shows up twice in values 1-5 */}
               {newQuantity >= 6 ? (
@@ -96,7 +104,10 @@ function CartItemControlModal({
                   {newQuantity}
                 </SelectItem>
               ) : null}
-              <SelectItem value="other">
+              <SelectItem
+                value="other"
+                data-testid="quantity-modal-button"
+              >
                 Other
               </SelectItem>
             </SelectContent>
