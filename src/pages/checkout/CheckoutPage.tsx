@@ -3,6 +3,7 @@ import { getTotalCost } from "@/lib/utils";
 import { useGetMyUser } from "@/lib/api/MyUserApi";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import CartItemControlModal from "@/components/ui/common/menu-items/CartItemControlModal";
+import { CheckoutSessionRequest, useCreateCheckoutSession } from "@/lib/api/OrderApi";
 import ExitModal from "./components/ExitModal";
 import UserProfileForm, { UserFormData, UserProfileFormSkeleton } from "../user-profile/components/UserProfileForm";
 import LineItem from "./components/LineItem";
@@ -14,9 +15,17 @@ function CheckoutPage() {
     restaurant,
   } = useBasket();
   const { user, isLoading: isGetUserLoading } = useGetMyUser();
-  const onCheckout = (userFormData: UserFormData) => {
-    console.log({ ...userFormData, restaurant, cartItems });
-    // TODO: integration
+  const {
+    createCheckoutSession,
+  } = useCreateCheckoutSession();
+  const onCheckout = async (userFormData: UserFormData) => {
+    const checkoutSessionRequest: CheckoutSessionRequest = {
+      cartItems,
+      restaurantSlug: restaurant!.slug,
+      deliveryDetails: { ...userFormData, email: userFormData.email! },
+    };
+    const res = await createCheckoutSession(checkoutSessionRequest);
+    window.location.href = res.url;
   };
   const totalCost = getTotalCost();
   if (cartItems.length === 0 || !restaurant) {
