@@ -21,11 +21,11 @@ function MenuItemCard({
           {quantity > 1 ? ` × ${quantity}` : null}
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex justify-center">
-        <span>
+      <CardContent className="flex justify-center [font-family:Lato]">
+        <span className="relative bottom-0.5">
           $
         </span>
-        <span className="text-xl" data-testid="menu-item-card-price">
+        <span className="text-xl text-black/90 group-hover:text-white" data-testid="menu-item-card-price">
           {intToPrice(menuItem.price * Number(quantity))}
         </span>
       </CardContent>

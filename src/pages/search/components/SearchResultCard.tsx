@@ -4,6 +4,7 @@ import { Restaurant } from "@/lib/types";
 import { Banknote, Clock, Dot } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AspectRatio } from "@/components/ui/common/shadcn/aspect-ratio";
+import Price from "@/components/ui/common/Price";
 
 interface SearchResultCardProps {
   restaurant: Restaurant;
@@ -52,8 +53,10 @@ function SearchResultCard({
             </div>
             <div className="flex items-center gap-1">
               <Banknote />
-              Delivery from $
-              {(restaurant.deliveryPrice / 100).toFixed(2)}
+              Delivery from
+              <Price
+                price={restaurant.deliveryPrice}
+              />
             </div>
           </div>
         </div>

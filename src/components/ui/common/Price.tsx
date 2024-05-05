@@ -12,11 +12,11 @@ function Price({
   testIdPrefix,
 }: PriceProps) {
   return (
-    <div className="flex justify-center">
-      <span>
+    <div className="flex justify-center [font-family:Lato] relative top-0.5">
+      <span className="relative bottom-0.5">
         $
       </span>
-      <span className="text-xl" data-testid={`${testIdPrefix?.toLowerCase().split(" ").join("-")}-tsx-price`}>
+      <span className="text-lg text-black/90" data-testid={`${testIdPrefix?.toLowerCase().split(" ").join("-")}-tsx-price`}>
         {noIntToPrice ? price : intToPrice(price)}
       </span>
     </div>

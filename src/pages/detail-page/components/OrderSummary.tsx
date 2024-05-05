@@ -4,12 +4,13 @@ import {
 } from "@/components/ui/common/shadcn/card";
 import { Separator } from "@/components/ui/common/shadcn/separator";
 import { CartItem, Restaurant } from "@/lib/types";
-import { getTotalCost, intToPrice } from "@/lib/utils";
+import { getTotalCost } from "@/lib/utils";
 import { Trash } from "lucide-react";
 import useBasket from "@/lib/hooks/useBasket";
 import { Link } from "react-router-dom";
 import { DETAIL_ROUTE } from "@/lib/consts";
 import CartItemControlModal from "@/components/ui/common/menu-items/CartItemControlModal";
+import Price from "@/components/ui/common/Price";
 import CheckoutButton from "./CheckoutButton";
 
 function DotSeparator() {
@@ -80,8 +81,7 @@ function OrderSummary({
                     <DotSeparator />
                     <span className="flex items-center gap-1">
                       <Trash color="red" size={20} />
-                      $
-                      {intToPrice(cartItem.price * cartItem.quantity)}
+                      <Price price={cartItem.price * cartItem.quantity} />
                     </span>
                   </button>
                 </CartItemControlModal>
@@ -96,8 +96,7 @@ function OrderSummary({
           </span>
           <DotSeparator />
           <span data-testid="delivery-price">
-            $
-            {noItems ? 0 : intToPrice(restaurantInBasket!.deliveryPrice)}
+            <Price testIdPrefix="delivery" price={noItems ? 0 : restaurantInBasket!.deliveryPrice} />
           </span>
         </div>
         <div className="flex justify-between">
@@ -105,12 +104,7 @@ function OrderSummary({
             Total
           </span>
           <DotSeparator />
-          <span>
-            $
-            <span data-testid="total">
-              {totalCost}
-            </span>
-          </span>
+          <Price testIdPrefix="total" price={totalCost} noIntToPrice />
         </div>
         <Separator />
       </CardContent>

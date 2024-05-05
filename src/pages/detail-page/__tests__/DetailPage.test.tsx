@@ -87,9 +87,9 @@ describe("DetailPage", () => {
     render(<MemoryRouter><DetailPage /></MemoryRouter>);
     async function addItemAndCount(i: number) {
     // get the total or start with the delivery price as the base
-      const prevTotal = priceToInt(Number(screen.getByTestId("total").textContent!) || intToPrice(testRestaurant.deliveryPrice));
+      const prevTotal = priceToInt(Number(screen.getByTestId("total-tsx-price").textContent!) || intToPrice(testRestaurant.deliveryPrice));
       const { price } = await addItem(i);
-      const currentTotal = priceToInt(Number(screen.getByTestId("total").textContent!));
+      const currentTotal = priceToInt(Number(screen.getByTestId("total-tsx-price").textContent!));
       expect(currentTotal).toBe(prevTotal + price);
     }
     await addItemAndCount(0);
@@ -148,7 +148,7 @@ describe("DetailPage", () => {
     };
     act(() => useBasket.getState().handleAddCartItem(menuItems[0], restaurantInBasket));
     render(<MemoryRouter><DetailPage /></MemoryRouter>);
-    const ddprice = screen.getByTestId("delivery-price");
+    const ddprice = screen.getByTestId("delivery-tsx-price");
     expect(ddprice.textContent).toContain(intToPrice(restaurantInBasket.deliveryPrice));
   });
 
