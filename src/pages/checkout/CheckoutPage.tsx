@@ -17,12 +17,13 @@ function CheckoutPage() {
   const { user, isLoading: isGetUserLoading } = useGetMyUser();
   const {
     createCheckoutSession,
+    isLoading: isCreateCheckoutSessionLoading,
   } = useCreateCheckoutSession();
   const onCheckout = async (userFormData: UserFormData) => {
     const checkoutSessionRequest: CheckoutSessionRequest = {
       cartItems,
       restaurantSlug: restaurant!.slug,
-      deliveryDetails: { ...userFormData, email: userFormData.email! },
+      deliveryDetails: { ...userFormData, email: userFormData.email as string },
     };
     const res = await createCheckoutSession(checkoutSessionRequest);
     window.location.href = res.url;
@@ -82,7 +83,7 @@ function CheckoutPage() {
         </ul>
         {isGetUserLoading || !user ? <UserProfileFormSkeleton /> : (
           <UserProfileForm
-            isLoading={isGetUserLoading}
+            isLoading={isCreateCheckoutSessionLoading}
             user={user}
             onSave={onCheckout}
             title="Delivery address"

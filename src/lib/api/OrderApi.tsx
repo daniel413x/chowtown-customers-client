@@ -17,7 +17,9 @@ const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
 
 export const useCreateCheckoutSession = () => {
   const { getAccessTokenSilently } = useAuth0();
-  const createCheckoutSessionReq = async (checkoutSessionRequest: CheckoutSessionRequest) => {
+  const createCheckoutSessionReq = async (
+    checkoutSessionRequest: CheckoutSessionRequest,
+  ): Promise<{ url: string; }> => {
     const accessToken = await getAccessTokenSilently();
     const res = await fetch(`${API_BASE_URL}/${ORDERS_ROUTE}/create-checkout-session`, {
       method: "POST",
