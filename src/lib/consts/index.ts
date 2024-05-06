@@ -6,3 +6,4 @@ export const SEARCH_ROUTE = "search";
 export const DETAIL_ROUTE = "detail";
 export const CHECKOUT_ROUTE = "checkout";
 export const ORDERS_ROUTE = "orders";
+export const ORDER_STATUS_ROUTE = "order-status";

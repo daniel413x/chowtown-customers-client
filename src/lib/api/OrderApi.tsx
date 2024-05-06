@@ -1,7 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
-import { CartItem, User } from "../types";
+import qs from "query-string";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { CartItem, OrdersGETManyRes, User } from "../types";
 import { ORDERS_ROUTE } from "../consts";
 import { errorCatch } from "../utils";
 
@@ -14,6 +17,57 @@ export type CheckoutSessionRequest = {
 }
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
+
+export const useGetUserOrders = () => {
+  const { getAccessTokenSilently } = useAuth0();
+  const [currentRowsLength, setCurrentRowsLength] = useState(0);
+  const [searchParams] = useSearchParams();
+  const url = qs.stringifyUrl({
+    url: `${API_BASE_URL}/${ORDERS_ROUTE}/user`,
+    query: {
+      page: searchParams.get("page") || 1,
+      sortBy: searchParams.get("sortBy"),
+    },
+  }, { skipNull: true });
+  const getUserOrdersReq: () => Promise<OrdersGETManyRes> = async () => {
+    const accessToken = await getAccessTokenSilently();
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Failed to get orders");
+    }
+    const fakeDelay = new Promise((resolve) => {
+      setTimeout(resolve, 150);
+    });
+    const results = await Promise.all([res, fakeDelay]);
+    return results[0].json();
+  };
+  const {
+    data: fetchedData, isLoading, isFetching, error,
+  } = useQuery(
+    [url],
+    getUserOrdersReq,
+    {
+      // enabled: !!city,
+    },
+  );
+  if (error) {
+    toast.error(errorCatch(error));
+  }
+  useEffect(() => {
+    if (fetchedData) {
+      setCurrentRowsLength(fetchedData.rows.length);
+    }
+  }, [fetchedData]);
+  return {
+    orders: fetchedData, isLoading, isFetching, currentRowsLength,
+  };
+};
 
 export const useCreateCheckoutSession = () => {
   const { getAccessTokenSilently } = useAuth0();

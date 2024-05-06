@@ -4,7 +4,7 @@ import {
 import MainLayout from "./components/layouts/main-layout/MainLayout";
 import HomePage from "./pages/home-page/HomePage";
 import {
-  AUTH_CALLBACK_ROUTE, CHECKOUT_ROUTE, DETAIL_ROUTE, SEARCH_ROUTE, USER_PROFILE_ROUTE,
+  AUTH_CALLBACK_ROUTE, CHECKOUT_ROUTE, DETAIL_ROUTE, ORDER_STATUS_ROUTE, SEARCH_ROUTE, USER_PROFILE_ROUTE,
 } from "./lib/consts";
 import AuthCallbackPage from "./pages/auth/AuthCallbackPage";
 import Auth0ProviderWithNavigate from "./components/providers/Auth0ProviderWithNavigate";
@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/misc/ProtectedRoute";
 import SearchPage from "./pages/search/SearchPage";
 import DetailPage from "./pages/detail-page/DetailPage";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
+import OrderStatusPage from "./pages/order-status/OrderStatusPage";
 
 function App() {
   return (
@@ -33,6 +34,16 @@ function App() {
               <AuthCallbackPage />
             )}
           />
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path={`/${ORDER_STATUS_ROUTE}`}
+              element={(
+                <MainLayout>
+                  <OrderStatusPage />
+                </MainLayout>
+            )}
+            />
+          </Route>
           <Route element={<ProtectedRoute />}>
             <Route
               path={`/${CHECKOUT_ROUTE}`}

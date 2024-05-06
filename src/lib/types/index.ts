@@ -47,4 +47,29 @@ export interface CartItem {
   quantity: number;
 }
 
+// eslint-disable-next-line no-shadow
+enum Status {
+  PLACED, PAID, IN_PROGRESS, OUT_FOR_DELIVERY, DELIVERED
+}
+
+interface DeliveryDetails {
+  email: string;
+  name: string;
+  addressLineOne: string;
+  city: string;
+}
+
+export interface Order {
+  id: string;
+  userId: string;
+  restaurantId: string;
+  deliveryDetails: DeliveryDetails;
+  cartItems: CartItem[];
+  totalAmount: number;
+  status: Status;
+  createdAt: string;
+}
+
 export interface RestaurantGETManyRes extends GETManyRes<Restaurant> {}
+
+export interface OrdersGETManyRes extends GETManyRes<Order> {}
