@@ -26,7 +26,11 @@ export const useGetRestaurantById = (id?: string) => {
     if (!res.ok) {
       throw new Error("Failed to get restaurant");
     }
-    return res.json();
+    const fakeDelay = new Promise((resolve) => {
+      setTimeout(resolve, 150);
+    });
+    const results = await Promise.all([res, fakeDelay]);
+    return results[0].json();
   };
   const {
     data: restaurant, isLoading,

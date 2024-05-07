@@ -1,19 +1,14 @@
 import Price from "@/components/ui/common/Price";
 import { Separator } from "@/components/ui/common/shadcn/separator";
-import { Order, Restaurant } from "@/lib/types";
+import { Order } from "@/lib/types";
 
 interface OrderStatusDetailProps {
   order: Order;
-  restaurant?: Restaurant;
 }
 
 function OrderStatusDetail({
   order,
-  restaurant,
 }: OrderStatusDetailProps) {
-  if (!restaurant) {
-    return "Loading restaurant";
-  }
   if (!order.deliveryDetails) {
     return "no delivery details";
   }

@@ -1,6 +1,7 @@
 import { Progress } from "@/components/ui/common/shadcn/progress";
 import { Order, Restaurant, Status } from "@/lib/types";
 import { format } from "date-fns";
+import { Loader } from "lucide-react";
 
 type OrderStatusInfo = {
     label: string;
@@ -54,9 +55,6 @@ function OrderStatusHeader({
     return format(created, "h:mm a");
   };
   const getOrderStatusInfo = () => orderStatus.find((orderStatusItem) => orderStatusItem.value === order.status);
-  if (!restaurant) {
-    return "Loading restaurant";
-  }
   return (
     <>
       <div className="tracking-tighter flex flex-col gap-5 md:flex-row md:justify-between">
@@ -78,10 +76,12 @@ function OrderStatusHeader({
             {" "}
             {orderPlaced}
           </span>
-          <span>
+          <span className="flex justify-end">
             Expected by
             {" "}
-            {getExpectedDelivery()}
+            {!restaurant ? (
+              <Loader className="ml-1 h-6 w-6 animate-spin" />
+            ) : getExpectedDelivery()}
           </span>
         </div>
       </div>
