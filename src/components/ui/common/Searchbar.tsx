@@ -41,7 +41,7 @@ function Searchbar({
   });
   const handleSearchSubmitDefault = (searchFormValues: SearchForm) => {
     navigate({
-      pathname: `${SEARCH_ROUTE}/${searchFormValues.searchTerm}`,
+      pathname: `/${SEARCH_ROUTE}/${searchFormValues.searchTerm}`,
     });
   };
   const handleReset = () => {
