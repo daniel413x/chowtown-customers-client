@@ -71,7 +71,7 @@ function SearchPage() {
             sortOption={searchParams.get("sortBy") || ""}
           />
         </div>
-        <div className="flex flex-col justify-between flex-1 gap-14">
+        <div className="flex flex-col justify-between flex-1">
           <ul className="flex flex-col gap-4">
             {isLoading || isFetching ? Array(currentRowsLength || 3).fill("").map((_, i) => (
               <SearchResultCardSkeleton key={i} />

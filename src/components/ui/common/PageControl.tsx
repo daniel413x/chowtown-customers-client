@@ -39,7 +39,7 @@ function PageControl({
     }
   }
   return (
-    <Pagination>
+    <Pagination className="mt-14">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
@@ -84,7 +84,7 @@ function PageControl({
 export function PageControlSkeleton() {
   return (
     <div
-      className="flex m-auto gap-2"
+      className="flex m-auto gap-2 mt-14"
     >
       <Skeleton className="h-10 w-[100px] mr-2" />
       <Skeleton className="h-10 w-10" />

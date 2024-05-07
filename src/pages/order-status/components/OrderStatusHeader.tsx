@@ -66,13 +66,13 @@ function OrderStatusHeader({
             {" "}
             {order.status}
           </h2>
-          <span>
+          <span className="relative top-1.5">
             Order
             {" "}
             {order.id}
           </span>
         </div>
-        <div className="flex flex-col justify-center text-right">
+        <div className="flex flex-col justify-center text-left md:text-right">
           <span>
             Order placed
             {" "}
