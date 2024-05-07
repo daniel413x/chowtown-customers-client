@@ -48,8 +48,12 @@ export interface CartItem {
 }
 
 // eslint-disable-next-line no-shadow
-enum Status {
-  PLACED, PAID, IN_PROGRESS, OUT_FOR_DELIVERY, DELIVERED
+export enum Status {
+  PLACED = "PLACED",
+  PAID = "PAID",
+  IN_PROGRESS = "IN_PROGRESS",
+  OUT_FOR_DELIVERY = "OUT_FOR_DELIVERY",
+  DELIVERED = "DELIVERED"
 }
 
 interface DeliveryDetails {

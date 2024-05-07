@@ -13,7 +13,7 @@ function RestaurantInfo({
         {label}
         :
       </span>
-      <span className="">
+      <span>
         {figure}
       </span>
     </div>

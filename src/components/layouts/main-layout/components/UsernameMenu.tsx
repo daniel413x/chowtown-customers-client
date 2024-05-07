@@ -23,7 +23,7 @@ function UsernameMenu() {
         <DropdownMenuItem>
           <Link
             className="font-bold hover:text-orange-500"
-            to={USER_PROFILE_ROUTE}
+            to={`/${USER_PROFILE_ROUTE}`}
           >
             User Profile
           </Link>

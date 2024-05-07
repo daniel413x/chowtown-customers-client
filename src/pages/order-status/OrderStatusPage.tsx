@@ -10,8 +10,8 @@ function OrderStatusPage() {
     return <>No orders found</>;
   }
   return (
-    <main className="space-y-10 ">
-      <ul>
+    <main>
+      <ul className="space-y-10">
         {orders.rows.map((order) => (
           <li key={order.id}>
             <Order order={order} />
