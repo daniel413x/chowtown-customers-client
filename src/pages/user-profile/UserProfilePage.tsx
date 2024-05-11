@@ -1,4 +1,5 @@
 import { useGetMyUser, useUpdateMyUser } from "@/lib/api/MyUserApi";
+import Meta from "@/components/misc/Meta";
 import UserProfileForm from "./components/UserProfileForm";
 
 function UserProfilePage() {
@@ -11,13 +12,17 @@ function UserProfilePage() {
     return <span className="text-red-500">Could not load user profile</span>;
   }
   return (
-    <div className="flex flex-col gap-12">
-      <UserProfileForm
-        onSave={updateUser}
-        isLoading={isLoadingPATCH}
-        user={user}
-      />
-    </div>
+    <Meta
+      title="Profile"
+    >
+      <div className="flex flex-col gap-12">
+        <UserProfileForm
+          onSave={updateUser}
+          isLoading={isLoadingPATCH}
+          user={user}
+        />
+      </div>
+    </Meta>
   );
 }
 
