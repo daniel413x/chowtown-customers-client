@@ -1,4 +1,3 @@
-import landingImage from "@/assets/landing.png";
 import appDownloadImage from "@/assets/appDownload.png";
 import Searchbar from "@/components/ui/common/Searchbar";
 import Meta from "@/components/misc/Meta";
@@ -22,7 +21,7 @@ function HomePage() {
         </div>
         <div className="grid md:grid-cols-2 gap-5">
           <img
-            src={landingImage}
+            src="https://res.cloudinary.com/dbpwbih9m/image/upload/v1715550267/chowtown/landing_kgncte.png"
             alt="App illustrations"
           />
           <div className="flex flex-col items-center justify-center gap-4 text-center">
