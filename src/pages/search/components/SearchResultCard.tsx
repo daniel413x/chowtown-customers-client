@@ -36,22 +36,24 @@ function SearchResultCard({
             {restaurant.cuisines.map((cuisine, index) => (
               <li key={cuisine}>
                 <span className="flex">
-                  <span>
+                  <span className="text-black/75">
                     {cuisine}
                   </span>
-                  {index < restaurant.cuisines.length - 1 ? <Dot /> : null}
+                  <span className="text-black/20">
+                    {index < restaurant.cuisines.length - 1 ? <Dot /> : null}
+                  </span>
                 </span>
               </li>
             ))}
           </ul>
-          <div className="flex gap-2 flex-col">
-            <div className="flex items-center gap-1 text-green-600">
-              <Clock className="text-green-600" />
+          <div className="flex gap-2 flex-col text-black/75">
+            <div className="flex items-center gap-1 ">
+              <Clock />
               {restaurant.estimatedDeliveryTime}
               {" "}
               mins
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 ">
               <Banknote />
               Delivery from
               <Price

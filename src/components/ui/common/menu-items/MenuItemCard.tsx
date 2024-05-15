@@ -14,7 +14,7 @@ function MenuItemCard({
   quantity = 1,
 }: MenuItemCardProps) {
   return (
-    <Card className="w-full group-hover:bg-orange-400/80 group-hover:text-white ">
+    <Card className="w-full group-hover:bg-orange-500 group-hover:text-white">
       <CardHeader>
         <CardTitle className="flex justify-center">
           {menuItem.name}
@@ -25,7 +25,7 @@ function MenuItemCard({
         <span className="relative bottom-0.5">
           $
         </span>
-        <span className="text-xl text-black/90 group-hover:text-white" data-testid="menu-item-card-price">
+        <span className="text-xl" data-testid="menu-item-card-price">
           {intToPrice(menuItem.price * Number(quantity))}
         </span>
       </CardContent>

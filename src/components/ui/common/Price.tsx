@@ -16,7 +16,7 @@ function Price({
       <span className="relative bottom-0.5">
         $
       </span>
-      <span className="text-lg text-black/90" data-testid={`${testIdPrefix?.toLowerCase().split(" ").join("-")}-tsx-price`}>
+      <span className="text-lg" data-testid={`${testIdPrefix?.toLowerCase().split(" ").join("-")}-tsx-price`}>
         {noIntToPrice ? price : intToPrice(price)}
       </span>
     </div>

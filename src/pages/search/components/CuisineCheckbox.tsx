@@ -43,9 +43,9 @@ function CuisineCheckbox({
         onChange={onChange}
       />
       <Label
-        className={cn("flex flex-1 items-center cursor-pointer text-sm rounded-full px-4 py-2 font-semibold border z-0", {
+        className={cn("flex flex-1 items-center cursor-pointer text-sm px-4 py-2 font-semibold border z-0", {
           "border-green-600 text-green-600": isSelected,
-          "border-orange-100 text-orange-300": !isSelected,
+          "border-orange-400 text-orange-500": !isSelected,
         })}
         data-testid={`cuisine-checkbox-${cuisine.toLowerCase()}`}
         htmlFor={id}

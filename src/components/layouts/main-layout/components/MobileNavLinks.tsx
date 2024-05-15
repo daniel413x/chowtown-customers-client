@@ -12,20 +12,26 @@ function MobileNavLinks() {
   } = useAuth0();
   return (
     <>
-      <Link
-        className="font-bold flex items-center hover:text-orange-500 hover:bg-white px-3 gap-2"
-        to={`/${ORDER_STATUS_ROUTE}`}
-      >
-        <Car />
-        Orders
-      </Link>
-      <Link
-        className="font-bold flex items-center hover:text-orange-500 hover:bg-white px-3 gap-2"
-        to={`/${USER_PROFILE_ROUTE}`}
-      >
-        <UserSquare />
-        User Profile
-      </Link>
+      <ul className="flex flex-col gap-4 pt-1 pb-8">
+        <li>
+          <Link
+            className="font-bold flex items-center hover:text-orange-500 hover:bg-white gap-2"
+            to={`/${ORDER_STATUS_ROUTE}`}
+          >
+            <Car />
+            Orders
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="font-bold flex items-center hover:text-orange-500 hover:bg-white gap-2"
+            to={`/${USER_PROFILE_ROUTE}`}
+          >
+            <UserSquare />
+            User Profile
+          </Link>
+        </li>
+      </ul>
       <Button
         className="flex items-center px-3 font-bold bg-orange-400 text-white"
         onClick={() => logout()}

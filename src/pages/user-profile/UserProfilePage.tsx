@@ -15,7 +15,7 @@ function UserProfilePage() {
     <Meta
       title="Profile"
     >
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-12 md:px-[6rem] lg:px-[12rem] ">
         <UserProfileForm
           onSave={updateUser}
           isLoading={isLoadingPATCH}

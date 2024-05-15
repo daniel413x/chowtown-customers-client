@@ -8,11 +8,11 @@ import UsernameMenu from "./UsernameMenu";
 function MainNav() {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   return (
-    <span className="flex space-x-2 items-center">
+    <span className="text-black flex space-x-2 items-center">
       {isAuthenticated ? (
         <>
           <Link
-            className="font-bold flex items-center hover:text-orange-500 hover:bg-white px-3 gap-2"
+            className="font-bold flex items-center hover:text-orange-500  px-3 gap-2"
             to={`/${ORDER_STATUS_ROUTE}`}
           >
             <Car />

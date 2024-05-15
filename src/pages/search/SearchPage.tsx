@@ -63,7 +63,7 @@ function SearchPage() {
             onReset={handleResetSearch}
             searchTerm={searchTerm || undefined}
           />
-          <div className="flex justify-between items-center gap-3 flex-col lg:flex-row mb-4 lg:mb-0">
+          <div className="flex justify-between items-center gap-3 flex-col lg:flex-row mb-4 lg:mb-0 md:px-8">
             {initialState ? (
               <SearchInfoSkeleton />
             ) : null}
@@ -78,7 +78,7 @@ function SearchPage() {
             />
           </div>
           <div className="flex flex-col justify-between flex-1">
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col gap-8 md:py-4 md:px-8">
               {isLoading || isFetching ? Array(currentRowsLength || 3).fill("").map((_, i) => (
                 <SearchResultCardSkeleton key={i} />
               )) : null}

@@ -36,7 +36,7 @@ const SortOptionDropdown = ({
     <div>
       <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer" asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="border-2 border-orange-400">
           {`Sort by${sortOption ? `: ${label}` : ''}`}
         </Button>
       </DropdownMenuTrigger>

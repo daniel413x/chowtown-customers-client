@@ -20,23 +20,23 @@ function UsernameMenu() {
         {user?.email}
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>
+        <DropdownMenuItem className="p-2" asChild>
           <Link
-            className="font-bold hover:text-orange-500"
+            className="font-bold cursor-pointer hover:text-orange-500 flex justify-center"
             to={`/${USER_PROFILE_ROUTE}`}
           >
             User Profile
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Button
-            className="flex flex-1 font-bold bg-orange-500"
+            className="flex flex-1 font-bold w-full cursor-pointer"
+            variant="ghost"
             onClick={() => logout()}
           >
             Log out
           </Button>
         </DropdownMenuItem>
-        <Separator />
       </DropdownMenuContent>
     </DropdownMenu>
   );

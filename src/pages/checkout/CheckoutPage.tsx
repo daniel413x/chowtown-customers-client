@@ -5,6 +5,7 @@ import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import CartItemControlModal from "@/components/ui/common/menu-items/CartItemControlModal";
 import { CheckoutSessionRequest, useCreateCheckoutSession } from "@/lib/api/OrderApi";
 import Meta from "@/components/misc/Meta";
+import { CreditCard } from "lucide-react";
 import ExitModal from "./components/ExitModal";
 import UserProfileForm, { UserFormData, UserProfileFormSkeleton } from "../user-profile/components/UserProfileForm";
 import LineItem from "./components/LineItem";
@@ -90,7 +91,12 @@ function CheckoutPage() {
               onSave={onCheckout}
               title="Delivery address"
               desc=""
-              buttonText="Continue to payment"
+              buttonText={(
+                <>
+                  <CreditCard className="mr-1" size={16} />
+                  Pay now
+                </>
+)}
             />
           )}
         </div>

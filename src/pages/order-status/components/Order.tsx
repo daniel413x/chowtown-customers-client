@@ -15,7 +15,7 @@ function Order({
 }: OrderProps) {
   const { restaurant } = useGetRestaurantById(order.restaurantId);
   return (
-    <div className="space-y-10 border-2 border-orange-500 font-semibold text-orange-500 p-10 rounded-lg">
+    <div className="space-y-10 border-2 border-stone-100 text-orange-500 p-10 rounded-lg shadow-sm">
       <OrderStatusHeader order={order} restaurant={restaurant} />
       <div className="grid gap-10 md:grid-cols-2">
         <OrderStatusDetail

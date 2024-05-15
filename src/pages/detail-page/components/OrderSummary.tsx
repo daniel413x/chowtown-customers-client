@@ -14,7 +14,7 @@ import Price from "@/components/ui/common/Price";
 import CheckoutButton from "./CheckoutButton";
 
 function DotSeparator() {
-  return <div className="border-0 border-dotted border-b-8 border-b-stone-200 flex-1 self-end" />;
+  return <div className="border-0 border-dotted border-b-4 border-b-orange-500/10 flex-1 self-end" />;
 }
 
 interface OrderSummaryProps {
@@ -60,7 +60,7 @@ function OrderSummary({
           </Link>
         </CardDescription>
       ) : null}
-      <CardContent className="flex flex-col space-y-2 pb-4">
+      <CardContent className="flex flex-col pb-4">
         {noItems ? "Your cart has no items" : (
           <ul data-testid="cart-items-list">
             {cartItems.map((cartItem) => (
@@ -89,8 +89,8 @@ function OrderSummary({
             ))}
           </ul>
         )}
-        <Separator />
-        <div className="flex justify-between">
+        <Separator className="bg-orange-200 mt-5 mb-1" />
+        <div className="flex justify-between py-1">
           <span>
             Delivery
           </span>
@@ -99,14 +99,14 @@ function OrderSummary({
             <Price testIdPrefix="delivery" price={noItems ? 0 : restaurantInBasket!.deliveryPrice} />
           </span>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between py-1">
           <span>
             Total
           </span>
           <DotSeparator />
           <Price testIdPrefix="total" price={totalCost} noIntToPrice />
         </div>
-        <Separator />
+        <Separator className="mt-5 bg-orange-300" />
       </CardContent>
       <CardFooter className="justify-center">
         <CheckoutButton />

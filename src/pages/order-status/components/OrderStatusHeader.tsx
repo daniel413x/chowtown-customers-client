@@ -54,15 +54,15 @@ function OrderStatusHeader({
     );
     return format(created, "h:mm a");
   };
-  const getOrderStatusInfo = () => orderStatus.find((orderStatusItem) => orderStatusItem.value === order.status);
+  const resolvedOrderStatus = orderStatus.find((orderStatusItem) => orderStatusItem.value === order.status);
   return (
     <>
-      <div className="tracking-tighter flex flex-col gap-5 md:flex-row md:justify-between">
+      <div className="tracking-tighter flex flex-col gap-5 font-bold md:flex-row md:justify-between">
         <div className="flex flex-col">
           <h2 className="text-4xl font-bold">
             Order Status:
             {" "}
-            {order.status}
+            {resolvedOrderStatus?.label}
           </h2>
           <span className="relative top-1.5">
             Order
@@ -71,12 +71,12 @@ function OrderStatusHeader({
           </span>
         </div>
         <div className="flex flex-col justify-center text-left md:text-right">
-          <span>
+          <span className="md:w-max">
             Order placed
             {" "}
             {orderPlaced}
           </span>
-          <span className="flex justify-end">
+          <span className="flex md:justify-end">
             Expected by
             {" "}
             {!restaurant ? (
@@ -85,7 +85,7 @@ function OrderStatusHeader({
           </span>
         </div>
       </div>
-      <Progress className="animate-pulse" value={getOrderStatusInfo()?.progressValue} />
+      <Progress className="animate-pulse" value={resolvedOrderStatus?.progressValue} />
     </>
   );
 }

@@ -13,9 +13,9 @@ function OrderStatusDetail({
     return "no delivery details";
   }
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 text-black">
       <div className="flex flex-col">
-        <span className="font-bold">
+        <span>
           Delivery to:
         </span>
         <span>
@@ -29,22 +29,25 @@ function OrderStatusDetail({
         </span>
       </div>
       <div className="flex flex-col">
-        <span className="font-bold">
-          Your Order:
+        <span>
+          Order Items:
         </span>
-        <ul>
+        <ul className="flex flex-col gap-2 mt-2 mb-4">
           {order.cartItems.map((item) => (
             <li key={item.id}>
-              {item.name}
-              &#x2715;
-              {item.quantity}
+              <div className="ps-2">
+                &#8226;
+                {item.name}
+                &#x2715;
+                {item.quantity}
+              </div>
               {" "}
             </li>
           ))}
         </ul>
         <Separator className="bg-black" />
         <div className="flex flex-col items-start">
-          <span className="font-bold">
+          <span>
             Total w/ delivery
           </span>
           <span className="text-black">

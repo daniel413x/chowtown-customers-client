@@ -6,7 +6,7 @@ import MainNav from "./MainNav";
 function Header() {
   return (
     <div
-      className="border-b-2 border-b-orange-500 py-6 min-w-[83px]"
+      className="border-b-2 border-b-orange-400 py-6 h-[83px]"
     >
       <div className="container flex mx-auto justify-between items-center">
         <Link

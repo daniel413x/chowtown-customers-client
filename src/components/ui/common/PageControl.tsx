@@ -38,6 +38,9 @@ function PageControl({
       pageNumbers.push(p);
     }
   }
+  if (pages < 2) {
+    return null;
+  }
   return (
     <Pagination className="mt-14">
       <PaginationContent>
@@ -45,8 +48,8 @@ function PageControl({
           <PaginationPrevious
             tabIndex={page === 1 ? -1 : 0}
             onClick={() => handleSetPage(page - 1)}
-            className={cn("cursor-pointer hover:bg-orange-500/10", {
-              "opacity-25 pointer-events-none cursor-none": page === 1,
+            className={cn({
+              "text-orange-300 pointer-events-none cursor-none border-none": page === 1,
             })}
             data-testid="pagination-prev-button"
           />
@@ -57,7 +60,7 @@ function PageControl({
               tabIndex={page === num ? -1 : 0}
               onClick={() => handleSetPage(num)}
               isActive={page === num}
-              className={cn("cursor-pointer hover:bg-orange-500/10", {
+              className={cn("cursor-pointer hover:font-bold hover:bg-white hover:text-orange-600", {
                 "pointer-events-none cursor-none bg-orange-400 text-white border-none": page === num,
               })}
               data-testid={`pagination-page-button-${num}`}
@@ -70,8 +73,8 @@ function PageControl({
           <PaginationNext
             tabIndex={pageLimitReached ? -1 : 0}
             onClick={() => handleSetPage(page + 1)}
-            className={cn("cursor-pointer hover:bg-orange-500/10", {
-              "opacity-25 pointer-events-none cursor-none": pageLimitReached,
+            className={cn({
+              "text-orange-300 pointer-events-none cursor-none border-none": pageLimitReached,
             })}
             data-testid="pagination-next-button"
           />

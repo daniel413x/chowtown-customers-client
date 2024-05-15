@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/common/shadcn/input";
 import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
 import { User } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -35,7 +35,7 @@ interface UserProfileFormProps {
   user: User;
   title?: string;
   desc?: string;
-  buttonText?: string;
+  buttonText?: ReactNode;
 }
 
 function UserProfileForm({
@@ -66,7 +66,7 @@ function UserProfileForm({
     >
       <form
         onSubmit={handleSubmit(onSave)}
-        className="space-y-4 bg-gray-50 rounded-lg md:p-10"
+        className="space-y-4 rounded-lg"
       >
         <div>
           <h2 className="text-2xl font-bold">

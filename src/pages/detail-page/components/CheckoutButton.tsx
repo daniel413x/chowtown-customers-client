@@ -18,7 +18,7 @@ function CheckoutButton() {
   if (!isAuthenticated) {
     return (
       <Button
-        className="font-bold hover:text-orange-500 hover:bg-white"
+        className="font-bold text-black hover:text-orange-500 hover:bg-white"
         variant="ghost"
         onClick={handleLogin}
         data-testid="checkout-login-button"

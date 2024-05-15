@@ -1,7 +1,7 @@
 import Price from "@/components/ui/common/Price";
 
 function DotSeparator() {
-  return <div className="border-0 border-dotted border-b-2 border-b-stone-500 flex-1" />;
+  return <div className="border-0 border-dotted border-b-2 border-b-orange-500 flex-1" />;
 }
 
 interface LineItemProps {

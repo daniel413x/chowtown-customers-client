@@ -37,10 +37,10 @@ function DetailPage() {
             <RestaurantInfo
               restaurant={restaurant}
             />
-            <span className="text-2xl font-bold tracking-tight">
+            <span className="text-orange-500 text-2xl font-bold tracking-tight">
               Menu
             </span>
-            <ul>
+            <ul className="space-y-0.5">
               {restaurant.menuItems.map((menuItem) => (
                 <li key={menuItem.name}>
                   <MenuItem
