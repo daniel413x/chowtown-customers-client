@@ -72,7 +72,7 @@ function OrderSummary({
                     key={cartItem.id}
                     data-testid={`cart-item-${cartItem.id}`}
                   >
-                    <span>
+                    <span className="flex flex-wrap text-start">
                       <Badge variant="outline" className="mr-2">
                         {cartItem.quantity}
                       </Badge>
@@ -89,7 +89,7 @@ function OrderSummary({
             ))}
           </ul>
         )}
-        <Separator className="bg-orange-200 mt-5 mb-1" />
+        <Separator className=" mt-5 mb-1" />
         <div className="flex justify-between py-1">
           <span>
             Delivery
@@ -106,7 +106,6 @@ function OrderSummary({
           <DotSeparator />
           <Price testIdPrefix="total" price={totalCost} noIntToPrice />
         </div>
-        <Separator className="mt-5 bg-orange-300" />
       </CardContent>
       <CardFooter className="justify-center">
         <CheckoutButton />

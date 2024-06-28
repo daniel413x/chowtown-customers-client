@@ -1,17 +1,22 @@
 import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
 import { DETAIL_ROUTE } from "@/lib/consts";
 import { Restaurant } from "@/lib/types";
-import { Banknote, Clock, Dot } from "lucide-react";
+import {
+  Banknote, Clock, Dot, MapPin,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { AspectRatio } from "@/components/ui/common/shadcn/aspect-ratio";
 import Price from "@/components/ui/common/Price";
+import { haversineDistance } from "@/lib/utils";
 
 interface SearchResultCardProps {
   restaurant: Restaurant;
+  userLocation: [number, number] | null;
 }
 
 function SearchResultCard({
   restaurant,
+  userLocation,
 }: SearchResultCardProps) {
   return (
     <Link
@@ -32,7 +37,7 @@ function SearchResultCard({
         <div
           className="grid md:grid-cols-2 gap-2"
         >
-          <ul className="flex flex-row flex-wrap">
+          <ul className="flex flex-row h-max flex-wrap">
             {restaurant.cuisines.map((cuisine, index) => (
               <li key={cuisine}>
                 <span className="flex">
@@ -47,6 +52,16 @@ function SearchResultCard({
             ))}
           </ul>
           <div className="flex gap-2 flex-col text-black/75">
+            {!userLocation ? null : (
+              <div className="flex items-center gap-1 ">
+                <MapPin />
+                <span data-testid="distance">
+                  {haversineDistance(userLocation, restaurant.location)}
+                </span>
+                {" "}
+                mi.
+              </div>
+            )}
             <div className="flex items-center gap-1 ">
               <Clock />
               {restaurant.estimatedDeliveryTime}

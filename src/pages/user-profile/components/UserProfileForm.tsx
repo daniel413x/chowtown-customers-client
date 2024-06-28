@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ReactNode, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import AddressAutocomplete from "./AddressAutocomplete";
 
 const formSchema = z.object({
   email: z.string().optional(),
@@ -25,6 +26,8 @@ const formSchema = z.object({
   country: z.string().min(1, {
     message: "Country is required.",
   }),
+  // if lat and lng are not set in this form, they will be set in the backend user service
+  location: z.tuple([z.number(), z.number()]).optional(),
 });
 
 export type UserFormData = z.infer<typeof formSchema>;
@@ -54,9 +57,34 @@ function UserProfileForm({
       email: user.email,
       city: user.city,
       country: user.country,
+      location: user.location,
     },
   });
   const { handleSubmit } = form;
+  const handleSelectAutocomplete = (place: google.maps.places.PlaceResult) => {
+    let addressLineOne;
+    if (place.name) {
+      addressLineOne = place.name;
+    }
+    let city;
+    let country;
+    if (place.address_components) {
+      city = place.address_components[2].long_name;
+      country = place.address_components[5].long_name;
+    }
+    if (addressLineOne) {
+      form.setValue("addressLineOne", addressLineOne);
+    }
+    if (city) {
+      form.setValue("city", city);
+    }
+    if (country) {
+      form.setValue("country", country);
+    }
+    if (place.geometry?.location) {
+      form.setValue("location", [place.geometry.location.lng(), place.geometry.location.lat()]);
+    }
+  };
   useEffect(() => {
     form.reset(user);
   }, [user, form]);
@@ -123,10 +151,12 @@ function UserProfileForm({
                   Address Line One
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    className="bg-white"
-                  />
+                  <AddressAutocomplete handleSelectAutocomplete={handleSelectAutocomplete}>
+                    <Input
+                      {...field}
+                      className="bg-white"
+                    />
+                  </AddressAutocomplete>
                 </FormControl>
                 <FormMessage />
               </FormItem>

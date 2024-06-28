@@ -4,16 +4,14 @@ import { toast } from "sonner";
 import qs from "query-string";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { CartItem, OrdersGETManyRes, User } from "../types";
+import { CartItem, DeliveryDetailsPOSTReq, OrdersGETManyRes } from "../types";
 import { ORDERS_ROUTE } from "../consts";
 import { errorCatch } from "../utils";
-
-type DeliveryDetails = Pick<User, "email" | "name" | "addressLineOne" | "city">;
 
 export type CheckoutSessionRequest = {
   cartItems: CartItem[];
   restaurantSlug: string;
-  deliveryDetails: DeliveryDetails;
+  deliveryDetails: DeliveryDetailsPOSTReq;
 }
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;

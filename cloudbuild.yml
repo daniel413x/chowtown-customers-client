@@ -8,6 +8,7 @@ steps:
       '--build-arg', 'VITE_AUTH0_REDIRECT_URI=$_VITE_AUTH0_REDIRECT_URI',
       '--build-arg', 'VITE_AUTH0_DOMAIN=$_VITE_AUTH0_DOMAIN',
       '--build-arg', 'VITE_AUTH0_AUDIENCE=$_VITE_AUTH0_AUDIENCE',
+      '--build-arg', 'VITE_GOOGLE_MAPS_API_KEY=$_VITE_GOOGLE_MAPS_API_KEY',
       '.'
     ]
   - name: gcr.io/cloud-builders/docker

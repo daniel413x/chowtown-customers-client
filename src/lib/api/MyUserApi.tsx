@@ -65,12 +65,7 @@ export const useCreateMyUser = () => {
   };
 };
 
-type UpdateUserReq = {
-  name: string;
-  addressLineOne: string;
-  city: string;
-  country: string;
-}
+type UpdateUserReq = Pick<User, "name" | "addressLineOne" | "city" | "country"> & Partial<Pick<User, "location">>;
 
 export const useUpdateMyUser = () => {
   const { getAccessTokenSilently, user } = useAuth0();
@@ -89,7 +84,11 @@ export const useUpdateMyUser = () => {
       body: JSON.stringify(formData),
     });
     if (!res.ok) {
-      throw new Error("failed to update user");
+      if (await res.text() === "Invalid address") {
+        throw new Error("Could not validate provided address, please try again");
+      } else {
+        throw new Error("Failed to update user");
+      }
     }
   };
   const {
@@ -109,4 +108,12 @@ export const useUpdateMyUser = () => {
     isLoading,
     isSuccess,
   };
+};
+
+export const getCoords = async () => {
+  const res = await fetch(`${API_BASE_URL}/${USER_ROUTE}/coords`);
+  if (!res.ok) {
+    toast.error("Could not get user location");
+  }
+  return res.json();
 };

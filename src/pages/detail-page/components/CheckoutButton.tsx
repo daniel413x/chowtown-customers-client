@@ -18,7 +18,7 @@ function CheckoutButton() {
   if (!isAuthenticated) {
     return (
       <Button
-        className="font-bold text-black hover:text-orange-500 hover:bg-white"
+        className="font-bold text-black hover:text-orange-300 hover:bg-white"
         variant="ghost"
         onClick={handleLogin}
         data-testid="checkout-login-button"
@@ -33,7 +33,7 @@ function CheckoutButton() {
   }
   return (
     <Link
-      className="flex items-center justify-center text-sm font-bold hover:text-orange-500 hover:bg-white"
+      className="flex items-center justify-center text-sm font-bold hover:text-orange-300 hover:bg-white"
       to={`/${CHECKOUT_ROUTE}`}
     >
       <ShoppingBasket size={18} className="mr-1" />

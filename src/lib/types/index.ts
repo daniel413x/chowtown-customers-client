@@ -5,17 +5,7 @@ export interface User {
   addressLineOne: string;
   city: string;
   country: string;
-}
-
-interface GETManyRes<T> {
-  rows: T[];
-  pagination: {
-    page: number;
-    size: number;
-    pages: number;
-    count: number;
-    pageLimitReached: boolean;
-  }
+  location: [number, number];
 }
 
 export interface MenuItem {
@@ -37,6 +27,7 @@ export interface Restaurant {
   cuisines: string[];
   menuItems: MenuItem[];
   lastUpdated: string;
+  location: [number, number];
   isActivatedByUser: boolean;
 }
 
@@ -56,12 +47,9 @@ export enum Status {
   DELIVERED = "DELIVERED"
 }
 
-interface DeliveryDetails {
-  email: string;
-  name: string;
-  addressLineOne: string;
-  city: string;
-}
+interface DeliveryDetails extends Pick<User, "email" | "name" | "addressLineOne" | "city"> {}
+
+export interface DeliveryDetailsPOSTReq extends DeliveryDetails, Partial<Pick<User, "location">> {}
 
 export interface Order {
   id: string;
@@ -72,6 +60,17 @@ export interface Order {
   totalAmount: number;
   status: Status;
   createdAt: string;
+}
+
+interface GETManyRes<T> {
+  rows: T[];
+  pagination: {
+    page: number;
+    size: number;
+    pages: number;
+    count: number;
+    pageLimitReached: boolean;
+  }
 }
 
 export interface RestaurantGETManyRes extends GETManyRes<Restaurant> {}

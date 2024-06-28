@@ -14,7 +14,7 @@ function SearchInfo({
   }
   const titlecaseCity = city.replace(/(^\D|\s\D)(?=\D*)/g, (c) => c.toUpperCase());
   return (
-    <div className="text-xl font-bold flex flex-col gap-3 justify-between my-4 lg:items-center lg:flex-row">
+    <div className="xl:w-max text-xl font-bold flex flex-col gap-3 justify-between my-4 lg:items-center lg:flex-row">
       <span>
         {count}
         {" "}

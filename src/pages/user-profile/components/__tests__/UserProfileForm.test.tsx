@@ -10,6 +10,7 @@ const user = {
   addressLineOne: "theUserAddress",
   city: "theUserCity",
   country: "theUserCountry",
+  location: [0, 0] as [number, number],
 };
 
 test("renders an error in the respective field if submit is attempted with a missing field", async () => {

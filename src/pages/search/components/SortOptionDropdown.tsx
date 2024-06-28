@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/common/shadcn/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/common/shadcn/dropdown-menu";
+import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
 
 interface SortOptionDropdownProps {
   onChange: (value: string) => void;
@@ -36,7 +37,7 @@ const SortOptionDropdown = ({
     <div>
       <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer" asChild>
-        <Button variant="outline" className="border-2 border-orange-400">
+        <Button variant="outline" className="hover:bg-orange-500 border-2 border-orange-400">
           {`Sort by${sortOption ? `: ${label}` : ''}`}
         </Button>
       </DropdownMenuTrigger>
@@ -53,6 +54,12 @@ const SortOptionDropdown = ({
       </DropdownMenuContent>
       </DropdownMenu>
     </div>
+  );
+}
+
+export function SortOptionDropdownSkeleton() {
+  return (
+    <Skeleton className="h-9 w-[82px]" />
   );
 }
 

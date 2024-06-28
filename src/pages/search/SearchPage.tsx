@@ -6,7 +6,9 @@ import Meta from "@/components/misc/Meta";
 import SearchInfo, { SearchInfoSkeleton } from "./components/SearchInfo";
 import SearchResultCard, { SearchResultCardSkeleton } from "./components/SearchResultCard";
 import CuisinesFilter from "./components/CuisinesFilter";
-import SortOptionDropdown from "./components/SortOptionDropdown";
+import SortOptionDropdown, { SortOptionDropdownSkeleton } from "./components/SortOptionDropdown";
+import { useGeolocation } from "./hooks/useGeolocation";
+import ShowDistanceButton, { ShowDistanceButtonSkeleton } from "./components/ShowDistanceButton";
 
 export type SearchQuery = { [param: string]: string | undefined; };
 
@@ -48,11 +50,14 @@ function SearchPage() {
   };
   const initialState = isLoading && !data;
   const title = searchTerm ? `"${searchTerm}" in ${city}` : `Search restaurants in ${city}`;
+  const {
+    userLocation,
+  } = useGeolocation();
   return (
     <Meta
       title={title}
     >
-      <main className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
+      <main className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5 relative">
         <CuisinesFilter
           handleSetSearchParams={(q: SearchQuery) => handleSetSearchParams(q)}
         />
@@ -64,18 +69,32 @@ function SearchPage() {
             searchTerm={searchTerm || undefined}
           />
           <div className="flex justify-between items-center gap-3 flex-col lg:flex-row mb-4 lg:mb-0 md:px-8">
-            {initialState ? (
-              <SearchInfoSkeleton />
-            ) : null}
-            {!data?.pagination ? null : (
-              <SearchInfo
-                count={data?.pagination?.count}
-              />
-            )}
-            <SortOptionDropdown
-              onChange={handleSetSort}
-              sortOption={searchParams.get("sortBy") || ""}
-            />
+            <div className="flex items-center">
+              {initialState ? (
+                <SearchInfoSkeleton />
+              ) : null}
+              {!data?.pagination ? null : (
+                <SearchInfo
+                  count={data?.pagination?.count}
+                />
+              )}
+            </div>
+            <div className="flex justify-between w-full md:w-max lg:w-full">
+              {initialState ? (
+                <>
+                  <ShowDistanceButtonSkeleton />
+                  <SortOptionDropdownSkeleton />
+                </>
+              ) : (
+                <>
+                  <ShowDistanceButton />
+                  <SortOptionDropdown
+                    onChange={handleSetSort}
+                    sortOption={searchParams.get("sortBy") || ""}
+                  />
+                </>
+              )}
+            </div>
           </div>
           <div className="flex flex-col justify-between flex-1">
             <ul className="flex flex-col gap-8 md:py-4 md:px-8">
@@ -84,7 +103,12 @@ function SearchPage() {
               )) : null}
               {data?.rows.map((restaurant) => (
                 <li key={restaurant.id}>
-                  {!data ? null : <SearchResultCard restaurant={restaurant} />}
+                  {!data ? null : (
+                    <SearchResultCard
+                      restaurant={restaurant}
+                      userLocation={userLocation}
+                    />
+                  )}
                 </li>
               ))}
             </ul>

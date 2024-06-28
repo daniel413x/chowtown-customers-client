@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/common/shadcn/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/common/shadcn/dropdown-menu";
-import { Separator } from "@/components/ui/common/shadcn/separator";
 import { USER_PROFILE_ROUTE } from "@/lib/consts";
 import { useAuth0 } from "@auth0/auth0-react";
 import { CircleUserRound } from "lucide-react";

@@ -46,6 +46,7 @@ const testRestaurant = {
   menuItems,
   lastUpdated: "",
   isActivatedByUser: true,
+  location: [0, 0] as [number, number],
 };
 
 jest.mocked(RestaurantApiHooks.useGetRestaurant).mockReturnValue({

@@ -15,7 +15,7 @@ describe("CuisinesFilter", () => {
       </QueryClientProviderWrapper>,
     );
     const cuisineCheckbox = screen.getByTestId("cuisine-checkbox-breakfast");
-    expect(cuisineCheckbox).toHaveClass("border-orange-100");
+    expect(cuisineCheckbox).toHaveClass("border-orange-400");
     await userEvent.click(cuisineCheckbox);
     expect(cuisineCheckbox).toHaveClass("border-green-600");
   });
@@ -29,11 +29,11 @@ describe("CuisinesFilter", () => {
       </QueryClientProviderWrapper>,
     );
     const cuisineCheckboxOne = screen.getByTestId("cuisine-checkbox-breakfast");
-    expect(cuisineCheckboxOne).toHaveClass("border-orange-100");
+    expect(cuisineCheckboxOne).toHaveClass("border-orange-400");
     await userEvent.click(cuisineCheckboxOne);
     expect(cuisineCheckboxOne).toHaveClass("border-green-600");
     const cuisineCheckboxTwo = screen.getByTestId("cuisine-checkbox-bbq");
-    expect(cuisineCheckboxTwo).toHaveClass("border-orange-100");
+    expect(cuisineCheckboxTwo).toHaveClass("border-orange-400");
     await userEvent.click(cuisineCheckboxTwo);
     expect(cuisineCheckboxTwo).toHaveClass("border-green-600");
     expect(cuisineCheckboxOne).toHaveClass("border-green-600");
@@ -62,10 +62,10 @@ describe("CuisinesFilter", () => {
     const cuisineCheckboxOne = screen.getByTestId("cuisine-checkbox-breakfast");
     expect(cuisineCheckboxOne).toHaveClass("border-green-600");
     await userEvent.click(cuisineCheckboxOne);
-    expect(cuisineCheckboxOne).toHaveClass("border-orange-100");
+    expect(cuisineCheckboxOne).toHaveClass("border-orange-400");
     const cuisineCheckboxTwo = screen.getByTestId("cuisine-checkbox-bbq");
     expect(cuisineCheckboxTwo).toHaveClass("border-green-600");
     await userEvent.click(cuisineCheckboxTwo);
-    expect(cuisineCheckboxTwo).toHaveClass("border-orange-100");
+    expect(cuisineCheckboxTwo).toHaveClass("border-orange-400");
   });
 });

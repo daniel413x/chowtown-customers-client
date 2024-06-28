@@ -96,7 +96,7 @@ function CheckoutPage() {
                   <CreditCard className="mr-1" size={16} />
                   Pay now
                 </>
-)}
+              )}
             />
           )}
         </div>
